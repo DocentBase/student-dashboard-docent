@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Batch, CoachingCenter } from '@/types';
 import { CoachingHeader } from '@/components/coaching/CoachingHeader';
 import { BatchCard } from '@/components/coaching/BatchCard';
@@ -13,12 +13,14 @@ import {
   GraduationCap,
   Building2,
   BookOpen,
-  PlusCircle,
-  Clock,
   Sparkles,
+  Search,
+  CheckCircle2,
+  Clock,
+  MapPin,
+  Flame,
   ArrowRight,
 } from 'lucide-react';
-import Link from 'next/link';
 
 // Mock Data for Enrolled Batches
 const INITIAL_BATCHES: Batch[] = [
@@ -106,7 +108,7 @@ const INITIAL_CENTERS: CoachingCenter[] = [
     address: '42/A Green Road, Farmgate, Dhaka 1215',
     contact_phone: '+880 1711-223344',
     contact_email: 'farmgate@docentbase.edu.bd',
-    head_teacher: 'Engr. Rafiqul Islam',
+    head_teacher: 'Engr. Rafiqul Islam (BUET)',
     enrolled_batches_count: 3,
     total_subjects: 4,
     established_year: '2018',
@@ -152,7 +154,7 @@ export default function CoachingPage() {
   });
 
   const activeBatchesCount = INITIAL_BATCHES.filter((b) => b.status === 'active').length;
-  const totalWeeklyHours = 12; // Approx weekly class hours
+  const totalWeeklyHours = 12;
 
   const handleOpenDetails = (batch: Batch) => {
     setSelectedDetailBatch(batch);
@@ -165,8 +167,8 @@ export default function CoachingPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8 pb-12">
-      {/* Top Header Banner & Global Controls */}
+    <div className="flex flex-col gap-8 pb-16 max-w-7xl mx-auto">
+      {/* Top Header Banner & Search Controls */}
       <CoachingHeader
         activeBatchesCount={activeBatchesCount}
         centersCount={INITIAL_CENTERS.length}
@@ -177,14 +179,14 @@ export default function CoachingPage() {
         onFilterChange={setSelectedFilter}
       />
 
-      {/* Main Tab Switcher */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-6">
+      {/* Main Glass Navigation Tabs */}
+      <div className="p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-start gap-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab('batches')}
-          className={`pb-3 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
+          className={`relative px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${
             activeTab === 'batches'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-md'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
           <GraduationCap size={18} /> Enrolled Batches ({filteredBatches.length})
@@ -192,10 +194,10 @@ export default function CoachingPage() {
 
         <button
           onClick={() => setActiveTab('centers')}
-          className={`pb-3 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
+          className={`relative px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${
             activeTab === 'centers'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-md'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
           <Building2 size={18} /> Coaching Institutes ({INITIAL_CENTERS.length})
@@ -203,23 +205,26 @@ export default function CoachingPage() {
 
         <button
           onClick={() => setActiveTab('browse')}
-          className={`pb-3 font-semibold text-sm flex items-center gap-2 border-b-2 transition-all ${
+          className={`relative px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${
             activeTab === 'browse'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-md'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
           }`}
         >
-          <Sparkles size={18} /> Available Batches
+          <Sparkles size={18} className="text-amber-500" /> Browse New Batches
         </button>
       </div>
 
       {/* Tab 1: Enrolled Batches Grid */}
       {activeTab === 'batches' && (
-        <>
+        <AnimatePresence mode="wait">
           {filteredBatches.length > 0 ? (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              key="batches-grid"
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {filteredBatches.map((batch) => (
@@ -233,19 +238,20 @@ export default function CoachingPage() {
             </motion.div>
           ) : (
             <EmptyState
-              icon={<GraduationCap size={40} />}
-              title="No Batches Found"
-              description="No coaching batches matched your search query or filter selection."
+              icon={<GraduationCap size={44} className="text-indigo-500" />}
+              title="No Batches Match Your Query"
+              description="Try tweaking your search term or select 'All Batches' filter pill above."
             />
           )}
-        </>
+        </AnimatePresence>
       )}
 
       {/* Tab 2: Enrolled Coaching Centers */}
       {activeTab === 'centers' && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {INITIAL_CENTERS.map((center) => (
@@ -257,63 +263,91 @@ export default function CoachingPage() {
       {/* Tab 3: Available / Upcoming Batches */}
       {activeTab === 'browse' && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl p-6 border bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 flex flex-col gap-6"
+          transition={{ duration: 0.3 }}
+          className="rounded-3xl p-6 sm:p-8 border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-lg flex flex-col gap-6"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100">
-                Explore Upcoming Coaching Batches
+              <div className="flex items-center gap-2 mb-1">
+                <Flame size={18} className="text-amber-500" />
+                <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">
+                  New Semester Admissions Open
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
+                Explore Available Coaching Batches
               </h3>
-              <p className="text-xs text-slate-500">
-                Apply for additional subject modules or upgrade to model-test admission batches.
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Enroll in specialized problem solving, model tests, or medical admission crash courses.
               </p>
             </div>
-            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-              New Admissions Open
-            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Course 1 */}
+            <div className="p-6 rounded-2xl border bg-slate-50/70 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-4 hover:shadow-md transition-all">
               <div>
-                <span className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider">
-                  Docent Science Academy
-                </span>
-                <h4 className="font-bold text-base mt-1">HSC ICT Masterclass 2026 Batch 01</h4>
-                <p className="text-xs text-slate-500 mt-1">
-                  Complete C-Programming, HTML & Digital Logic syllabus coverage with live lab practices.
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
+                    Docent Science Academy
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
+                    6 Seats Remaining
+                  </span>
+                </div>
+                <h4 className="font-extrabold text-lg text-slate-900 dark:text-slate-100">
+                  HSC ICT Masterclass 2026 Batch 01
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  Complete C-Programming, HTML, Database Management Systems & Digital Logic with hands-on lab practice.
                 </p>
               </div>
-              <div className="flex items-center justify-between pt-2 border-t text-xs">
-                <span className="font-bold text-slate-900 dark:text-slate-100">৳ 2,000 / month</span>
+
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] text-slate-400 font-semibold">Tuition Fee</p>
+                  <p className="text-base font-extrabold text-slate-900 dark:text-slate-100">৳ 2,000 / mo</p>
+                </div>
                 <button
-                  onClick={() => alert('Admission request sent to campus admin!')}
-                  className="py-1.5 px-3 rounded-lg bg-indigo-600 text-white font-semibold text-xs hover:bg-indigo-700 transition-all"
+                  onClick={() => alert('Enrollment application sent to campus coordinator!')}
+                  className="py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all active:scale-95"
                 >
-                  Enroll Request
+                  Request Admission
                 </button>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+            {/* Course 2 */}
+            <div className="p-6 rounded-2xl border bg-slate-50/70 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-4 hover:shadow-md transition-all">
               <div>
-                <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
-                  Docent Engineering Care
-                </span>
-                <h4 className="font-bold text-base mt-1">BUET Special Math & Physics Advance</h4>
-                <p className="text-xs text-slate-500 mt-1">
-                  Focused engineering admission problem-solving batch for top aspirants.
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[11px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+                    Docent Engineering Care
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                    Early Bird Open
+                  </span>
+                </div>
+                <h4 className="font-extrabold text-lg text-slate-900 dark:text-slate-100">
+                  BUET Engineering Math & Physics Special
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  Advanced engineering problem solving, previous BUET question analysis, and speed calculation drills.
                 </p>
               </div>
-              <div className="flex items-center justify-between pt-2 border-t text-xs">
-                <span className="font-bold text-slate-900 dark:text-slate-100">৳ 3,500 / month</span>
+
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] text-slate-400 font-semibold">Tuition Fee</p>
+                  <p className="text-base font-extrabold text-slate-900 dark:text-slate-100">৳ 3,500 / mo</p>
+                </div>
                 <button
-                  onClick={() => alert('Admission request sent to campus admin!')}
-                  className="py-1.5 px-3 rounded-lg bg-indigo-600 text-white font-semibold text-xs hover:bg-indigo-700 transition-all"
+                  onClick={() => alert('Enrollment application sent to campus coordinator!')}
+                  className="py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all active:scale-95"
                 >
-                  Enroll Request
+                  Request Admission
                 </button>
               </div>
             </div>
@@ -321,7 +355,7 @@ export default function CoachingPage() {
         </motion.div>
       )}
 
-      {/* Modals */}
+      {/* Interactive Modals */}
       <BatchDetailModal
         batch={selectedDetailBatch}
         isOpen={isDetailOpen}
