@@ -2,8 +2,9 @@
 
 ## Core Architectural & Deployment Rules
 
-1. **GitHub Sync (Mandatory)**
+1. **GitHub Sync & Sub-Agent Handoff (Mandatory)**
    - Every single change or feature update **MUST** be committed and pushed to GitHub immediately upon completion.
+   - Main agents can delegate the documentation, final checks, commit, and push steps to the **`pusher-fixer`** sub-agent (configured with low-power model `Gemini 3.6 Flash Low`).
    - Commit messages must be clear, concise, and descriptive of the work done.
 
 2. **Environment Variable Management**
@@ -21,10 +22,18 @@
 
 ---
 
+## Sub-Agent Delegation Workflow
+
+When any main agent finishes a task:
+1. Call the **`pusher-fixer`** sub-agent.
+2. The `pusher-fixer` agent will perform final verification, document changes in `README.md`, commit, and push to GitHub.
+
+---
+
 ## Agent-Specific Execution Rules
 
 ### For Antigravity & OpenCode Agents:
-- **Build & Deploy Command**: After committing and pushing code to GitHub, execute:
+- **Build & Deploy Command**: After committing and pushing code to GitHub (or after `pusher-fixer` finishes), execute:
   ```bash
   npm run deploy
   ```
@@ -37,26 +46,8 @@
 - **Full Capabilities**: Codex is authorized to execute **ALL shell commands**, run any necessary tools, modify/create any files, refactor architecture, and perform any task required to build, test, and maintain the project.
 - **Git Push & Notification Protocol**:
   1. Perform any required tasks, code modifications, or terminal commands with full authority.
-  2. Commit and push changes directly to GitHub.
+  2. Call `pusher-fixer` or commit and push changes directly to GitHub.
   3. Immediately execute the `./notify` script:
      ```bash
      ./notify
      ```
-  - *Pushing to GitHub and executing `./notify` are strictly mandatory for Codex.*
-
----
-
-## Product & Domain Vision: Student Portal
-
-- **Focus**: Dedicated Student Portal strictly separated from the Staff/Admin Portal, focused exclusively on the student's academic journey.
-- **UI/UX Aesthetics**:
-  - Clean, modern, premium, and **mobile-first**.
-  - Avoid typical heavy SaaS/admin dashboard patterns.
-  - Intuitive, trustworthy, and distraction-free interface allowing access to essential information within seconds.
-- **Key Modules**:
-  - Attendance tracking
-  - Fee statements & payment status
-  - Notices & Announcements
-  - Study Notes & Resources
-  - Examination Schedules & Results
-  - Class Routines / Timetables

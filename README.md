@@ -31,7 +31,13 @@ All feature specifications live in `docs/features/`:
 
 ---
 
+## Sub-Agents
+- `pusher-fixer`: Low-power helper agent (`Gemini 3.6 Flash Low`) for code verification, documentation updates in `README.md`, git commit, and GitHub push.
+
+---
+
 ## Activity List
 - `[2026-08-03 11:34]` - Initialized project documentation and system prompt guidelines (`AGENTS.md`) (Antigravity)
 - `[2026-08-03 11:40]` - Granted Codex full power to run all commands and updated agent configuration files (Antigravity)
 - `[2026-08-03 11:41]` - Created 13 detailed feature specification files in `docs/features/` covering all portal pages, layout, and security (Antigravity)
+- `[2026-08-03 11:50]` - Created `pusher-fixer` sub-agent skill (`Gemini 3.6 Flash Low`) for automated documentation, bug fixes, git commit, and GitHub push (pusher-fixer)
