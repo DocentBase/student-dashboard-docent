@@ -1,50 +1,36 @@
-# Student Dashboard Project
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A clean, modern, premium, and mobile-first Student Portal built for Cloudflare.
+## Getting Started
 
-## Tech Stack
-- **Framework**: Next.js (OpenNext for Cloudflare)
-- **Database**: Neon PostgreSQL
-- **Authentication**: Clerk
-- **Email**: Resend
-- **Deployment**: Cloudflare Workers / Pages
+First, run the development server:
 
-## Feature Specs
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-All feature specifications live in `docs/features/`:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-| # | File | Page |
-|---|---|---|
-| 00 | `00-overview.md` | Master Overview & Navigation Map |
-| 01 | `01-dashboard.md` | Dashboard (Home) |
-| 02 | `02-attendance.md` | Attendance |
-| 03 | `03-fees-payments.md` | Fees & Payments |
-| 04 | `04-notes-resources.md` | Notes & Resources |
-| 05 | `05-exams.md` | Exams |
-| 06 | `06-results.md` | Results |
-| 07 | `07-routine.md` | Routine |
-| 08 | `08-notice-board.md` | Notice Board |
-| 09 | `09-profile.md` | Profile |
-| 10 | `10-settings.md` | Settings |
-| 11 | `11-layout-navigation.md` | Layout & Navigation |
-| 12 | `12-permissions-security.md` | Permissions & Security |
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
----
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Skills & Sub-Agents
+## Learn More
 
-| Skill | Location | Purpose |
-|---|---|---|
-| `pusher-fixer` | `.agents/skills/pusher-fixer/` | Low-power agent (Gemini 3.6 Flash Low) for README docs, git commit, and GitHub push |
-| `student-portal-ui` | `.agents/skills/student-portal-ui/` | Complete UI/UX design system — colors, typography, spacing, components, animations |
-| `parallel-build` | `.agents/skills/parallel-build/` | Orchestration: spawn 12 sub-agents to build all features in parallel, then assemble & deploy |
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Activity List
-- `[2026-08-03 11:34]` - Initialized project documentation and system prompt guidelines (`AGENTS.md`) (Antigravity)
-- `[2026-08-03 11:40]` - Granted Codex full power to run all commands and updated agent configuration files (Antigravity)
-- `[2026-08-03 11:41]` - Created 13 detailed feature specification files in `docs/features/` covering all portal pages, layout, and security (Antigravity)
-- `[2026-08-03 11:50]` - Created `pusher-fixer` sub-agent skill (`Gemini 3.6 Flash Low`) for automated documentation, bug fixes, git commit, and GitHub push (pusher-fixer)
-- `[2026-08-03 12:08]` - Major spec rewrite: added DocentBase ecosystem compatibility (shared DB with dashboard.docentbase.com), multi-course/batch architecture, sidebar-only navigation (no bottom nav, Facebook-style drawer on mobile), aesthetics-first design priority, Clerk vs DB data source rules, React Native + Expo mobile stack info, and Framer Motion animation guidelines (Antigravity)
-- `[2026-08-03 12:17]` - Created shared DATABASE_SCHEMA.md (11 tables compatible with staff dashboard), student-portal-ui design system skill, and parallel-build orchestration skill (12 sub-agents) (Antigravity)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -1,0 +1,14 @@
+import { ButtonHTMLAttributes } from 'react';
+import { cn } from '@/lib/utils';
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+}
+
+export function Button({ children, variant = 'primary', className, ...props }: ButtonProps) {
+  return (
+    <button className={cn('btn', `btn-${variant}`, className)} {...props}>
+      {children}
+    </button>
+  );
+}
