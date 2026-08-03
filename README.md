@@ -31,8 +31,13 @@ All feature specifications live in `docs/features/`:
 
 ---
 
-## Sub-Agents
-- `pusher-fixer`: Low-power helper agent (`Gemini 3.6 Flash Low`) for code verification, documentation updates in `README.md`, git commit, and GitHub push.
+## Skills & Sub-Agents
+
+| Skill | Location | Purpose |
+|---|---|---|
+| `pusher-fixer` | `.agents/skills/pusher-fixer/` | Low-power agent (Gemini 3.6 Flash Low) for README docs, git commit, and GitHub push |
+| `student-portal-ui` | `.agents/skills/student-portal-ui/` | Complete UI/UX design system — colors, typography, spacing, components, animations |
+| `parallel-build` | `.agents/skills/parallel-build/` | Orchestration: spawn 12 sub-agents to build all features in parallel, then assemble & deploy |
 
 ---
 
@@ -42,3 +47,4 @@ All feature specifications live in `docs/features/`:
 - `[2026-08-03 11:41]` - Created 13 detailed feature specification files in `docs/features/` covering all portal pages, layout, and security (Antigravity)
 - `[2026-08-03 11:50]` - Created `pusher-fixer` sub-agent skill (`Gemini 3.6 Flash Low`) for automated documentation, bug fixes, git commit, and GitHub push (pusher-fixer)
 - `[2026-08-03 12:08]` - Major spec rewrite: added DocentBase ecosystem compatibility (shared DB with dashboard.docentbase.com), multi-course/batch architecture, sidebar-only navigation (no bottom nav, Facebook-style drawer on mobile), aesthetics-first design priority, Clerk vs DB data source rules, React Native + Expo mobile stack info, and Framer Motion animation guidelines (Antigravity)
+- `[2026-08-03 12:17]` - Created shared DATABASE_SCHEMA.md (11 tables compatible with staff dashboard), student-portal-ui design system skill, and parallel-build orchestration skill (12 sub-agents) (Antigravity)
