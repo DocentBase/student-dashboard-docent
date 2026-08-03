@@ -1,12 +1,13 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, BarChart3, Wallet, FileText, ClipboardList, Trophy, Calendar, Megaphone, User, Settings, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Home, BarChart3, Wallet, FileText, ClipboardList, Trophy, Calendar, Megaphone, User, Settings, ChevronLeft, ChevronRight, X, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const links = [
-  { href: '/', label: 'Dashboard', icon: Home },
+  { href: '/dashboard', label: 'Dashboard', icon: Home },
+  { href: '/coaching', label: 'Coaching & Batches', icon: GraduationCap },
   { href: '/attendance', label: 'Attendance', icon: BarChart3 },
   { href: '/fees', label: 'Fees', icon: Wallet },
   { href: '/notes', label: 'Notes', icon: FileText },

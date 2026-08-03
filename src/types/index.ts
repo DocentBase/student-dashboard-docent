@@ -36,6 +36,34 @@ export interface Batch {
   capacity?: number;
   assigned_teacher?: string;
   monthly_fee?: number;
+  batch_code?: string;
+  coaching_center_id?: string;
+  coaching_center_name?: string;
+  subject?: string;
+  class_level?: string;
+  days_schedule?: string[];
+  room_number?: string;
+  teacher_avatar?: string;
+  teacher_phone?: string;
+  progress_percentage?: number;
+  total_students?: number;
+  enrolled_date?: string;
+  status?: 'active' | 'upcoming' | 'completed';
+}
+
+export interface CoachingCenter {
+  id: string;
+  name: string;
+  code: string;
+  branch: string;
+  address: string;
+  contact_phone: string;
+  contact_email: string;
+  head_teacher: string;
+  logo_url?: string;
+  enrolled_batches_count: number;
+  total_subjects: number;
+  established_year?: string;
 }
 
 export interface StudentBatchEnrollment {
