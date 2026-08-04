@@ -25,7 +25,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const desktopWidth = collapsed ? '72px' : '260px';
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-app)' }}>
+    <div className="app-shell">
       <Sidebar 
         isOpen={sidebarOpen} 
         setIsOpen={setSidebarOpen} 
@@ -33,16 +33,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         collapsed={collapsed}
         toggleCollapse={toggleCollapse}
       />
-      <div 
-        className="flex flex-col flex-1 overflow-hidden" 
+      <div
+        className="app-content flex flex-col"
         style={{ 
-          marginLeft: !isMobile ? desktopWidth : 0, 
-          transition: 'margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
+          marginLeft: !isMobile ? desktopWidth : 0,
         }}
       >
         <Header toggleSidebar={() => setSidebarOpen(true)} isMobile={isMobile} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          {children}
+        <main className="portal-main">
+          <div className="portal-page">{children}</div>
         </main>
       </div>
     </div>
