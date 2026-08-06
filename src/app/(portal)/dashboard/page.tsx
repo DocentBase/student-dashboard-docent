@@ -17,7 +17,7 @@ import Link from 'next/link';
 
 const quickActions = [
   {
-    href: '/routine',
+    href: '/dashboard/routine',
     title: 'Routine',
     caption: 'Today at a glance',
     icon: Calendar,
@@ -25,7 +25,7 @@ const quickActions = [
     bg: 'var(--brand-primary-light)',
   },
   {
-    href: '/notes',
+    href: '/dashboard/notes',
     title: 'Notes',
     caption: '2 new resources',
     icon: FileText,
@@ -33,7 +33,7 @@ const quickActions = [
     bg: 'var(--color-info-light)',
   },
   {
-    href: '/fees',
+    href: '/dashboard/fees',
     title: 'Payments',
     caption: 'August tuition due',
     icon: Wallet,
@@ -41,7 +41,7 @@ const quickActions = [
     bg: 'var(--color-warning-light)',
   },
   {
-    href: '/results',
+    href: '/dashboard/results',
     title: 'Results',
     caption: 'Latest marks',
     icon: Trophy,
@@ -68,10 +68,10 @@ export default async function DashboardPage() {
           </div>
 
           <div className="hero-actions">
-            <Link className="btn btn-light" href="/routine">
+            <Link className="btn btn-light" href="/dashboard/routine">
               View routine <ArrowRight size={16} />
             </Link>
-            <Link className="btn btn-glass" href="/notes">
+            <Link className="btn btn-glass" href="/dashboard/notes">
               Open study notes
             </Link>
           </div>
@@ -124,7 +124,7 @@ export default async function DashboardPage() {
               <div className="eyebrow">Priority</div>
               <h2 className="section-title">Upcoming Exams</h2>
             </div>
-            <Link className="section-link" href="/exams">
+            <Link className="section-link" href="/dashboard/exams">
               View all
             </Link>
           </div>
@@ -152,7 +152,7 @@ export default async function DashboardPage() {
               <div className="eyebrow">Updates</div>
               <h2 className="section-title">Latest Notices</h2>
             </div>
-            <Link className="section-link" href="/notices">
+            <Link className="section-link" href="/dashboard/notices">
               View all
             </Link>
           </div>

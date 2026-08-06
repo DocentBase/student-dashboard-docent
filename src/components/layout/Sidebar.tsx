@@ -23,19 +23,19 @@ import { cn } from '@/lib/utils';
 
 const primaryLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
-  { href: '/coaching', label: 'Coaching', icon: GraduationCap },
-  { href: '/attendance', label: 'Attendance', icon: BarChart3 },
-  { href: '/fees', label: 'Fees', icon: Wallet },
-  { href: '/notes', label: 'Notes', icon: FileText },
-  { href: '/exams', label: 'Exams', icon: ClipboardList },
-  { href: '/results', label: 'Results', icon: Trophy },
-  { href: '/routine', label: 'Routine', icon: Calendar },
-  { href: '/notices', label: 'Notices', icon: Megaphone },
+  { href: '/dashboard/coaching', label: 'Coaching', icon: GraduationCap },
+  { href: '/dashboard/attendance', label: 'Attendance', icon: BarChart3 },
+  { href: '/dashboard/fees', label: 'Fees', icon: Wallet },
+  { href: '/dashboard/notes', label: 'Notes', icon: FileText },
+  { href: '/dashboard/exams', label: 'Exams', icon: ClipboardList },
+  { href: '/dashboard/results', label: 'Results', icon: Trophy },
+  { href: '/dashboard/routine', label: 'Routine', icon: Calendar },
+  { href: '/dashboard/notices', label: 'Notices', icon: Megaphone },
 ];
 
 const bottomLinks = [
-  { href: '/profile', label: 'Profile', icon: User },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/dashboard/profile', label: 'Profile', icon: User },
+  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ];
 
 type SidebarProps = {
