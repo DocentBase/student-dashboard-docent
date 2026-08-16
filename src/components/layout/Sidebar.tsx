@@ -25,11 +25,11 @@ const primaryLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
   { href: '/dashboard/coaching', label: 'Coaching', icon: GraduationCap },
   { href: '/dashboard/attendance', label: 'Attendance', icon: BarChart3 },
-  { href: '/dashboard/fees', label: 'Fees', icon: Wallet },
-  { href: '/dashboard/notes', label: 'Notes', icon: FileText },
-  { href: '/dashboard/exams', label: 'Exams', icon: ClipboardList },
-  { href: '/dashboard/results', label: 'Results', icon: Trophy },
-  { href: '/dashboard/routine', label: 'Routine', icon: Calendar },
+  { href: '/dashboard/fees', label: 'Fees & Tuition', icon: Wallet },
+  { href: '/dashboard/notes', label: 'Study Notes', icon: FileText },
+  { href: '/dashboard/exams', label: 'Exams & Tests', icon: ClipboardList },
+  { href: '/dashboard/results', label: 'Results & Marks', icon: Trophy },
+  { href: '/dashboard/routine', label: 'Class Routine', icon: Calendar },
   { href: '/dashboard/notices', label: 'Notices', icon: Megaphone },
 ];
 
@@ -48,7 +48,7 @@ type SidebarProps = {
 
 export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse }: SidebarProps) {
   const pathname = usePathname();
-  const width = collapsed ? 72 : 260;
+  const width = collapsed ? 72 : 256;
 
   const renderLink = (link: (typeof primaryLinks)[number]) => {
     const isActive = pathname === link.href;
@@ -64,7 +64,7 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
         title={collapsed ? link.label : undefined}
       >
         <span className="nav-icon">
-          <Icon size={20} strokeWidth={2.2} />
+          <Icon size={18} strokeWidth={2} />
         </span>
         {!collapsed && <span>{link.label}</span>}
       </Link>
@@ -76,7 +76,7 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
       <div className="sidebar-brand">
         <div className="brand-lockup">
           <div className="brand-mark">
-            <GraduationCap size={22} />
+            <GraduationCap size={20} />
           </div>
           {!collapsed && (
             <div>
@@ -87,16 +87,16 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
         </div>
         {isMobile && (
           <button aria-label="Close navigation" className="icon-button" onClick={() => setIsOpen(false)}>
-            <X size={20} />
+            <X size={18} />
           </button>
         )}
       </div>
 
       <nav className="sidebar-scroll" aria-label="Student portal navigation">
-        {!collapsed && <div className="nav-section-label">Workspace</div>}
+        {!collapsed && <div className="nav-section-label">Cockpit Navigation</div>}
         {primaryLinks.map(renderLink)}
 
-        {!collapsed && <div className="nav-section-label">Account</div>}
+        {!collapsed && <div className="nav-section-label">Preferences</div>}
         {bottomLinks.map(renderLink)}
       </nav>
 
@@ -105,20 +105,20 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
           <div className="student-mini-card">
             <div className="avatar-initials">ST</div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ color: 'var(--text-primary)', fontSize: 13, fontWeight: 800 }}>Student workspace</div>
-              <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>Class 10 · Science</div>
+              <div style={{ color: 'var(--foreground)', fontSize: 12, fontWeight: 700 }}>Student Portal</div>
+              <div style={{ color: 'var(--muted-foreground)', fontSize: 11 }}>Active Session</div>
             </div>
           </div>
         )}
 
         {!isMobile && (
-          <div className="flex justify-center" style={{ marginTop: collapsed ? 0 : 12 }}>
+          <div className="flex justify-center" style={{ marginTop: collapsed ? 0 : 10 }}>
             <button
               aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               className="icon-button"
               onClick={toggleCollapse}
             >
-              {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+              {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
           </div>
         )}
@@ -132,18 +132,18 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
         {isOpen && (
           <>
             <motion.div
-              animate={{ opacity: 0.5 }}
+              animate={{ opacity: 0.4 }}
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              style={{ position: 'fixed', inset: 0, background: '#020617', zIndex: 40 }}
+              style={{ position: 'fixed', inset: 0, background: '#09090b', zIndex: 40 }}
             />
             <motion.div
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               initial={{ x: -300 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              style={{ position: 'fixed', top: 0, bottom: 0, left: 0, width: 290, zIndex: 50 }}
+              style={{ position: 'fixed', top: 0, bottom: 0, left: 0, width: 270, zIndex: 50, background: 'var(--card)' }}
             >
               {content}
             </motion.div>

@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
@@ -9,7 +10,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (mobile) setSidebarOpen(false);
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     const saved = localStorage.getItem('sidebar_collapsed');
@@ -18,30 +23,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleCollapse = () => {
-    setCollapsed(!collapsed);
-    localStorage.setItem('sidebar_collapsed', (!collapsed).toString());
+    const next = !collapsed;
+    setCollapsed(next);
+    localStorage.setItem('sidebar_collapsed', next.toString());
   };
-
-  const desktopWidth = collapsed ? '72px' : '260px';
 
   return (
     <div className="app-shell">
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        setIsOpen={setSidebarOpen} 
-        isMobile={isMobile} 
+      <Sidebar
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+        isMobile={isMobile}
         collapsed={collapsed}
         toggleCollapse={toggleCollapse}
       />
-      <div
-        className="app-content flex flex-col"
-        style={{ 
-          marginLeft: !isMobile ? desktopWidth : 0,
-        }}
-      >
+      <div className="app-main">
         <Header toggleSidebar={() => setSidebarOpen(true)} isMobile={isMobile} />
-        <main className="portal-main">
-          <div className="portal-page">{children}</div>
+        <main className="app-body">
+          {children}
         </main>
       </div>
     </div>

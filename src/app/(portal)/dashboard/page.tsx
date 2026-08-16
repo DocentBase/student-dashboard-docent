@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/Badge';
+import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { StatCard } from '@/components/ui/StatCard';
 import { getCurrentStudent } from '@/lib/auth';
@@ -12,41 +12,44 @@ import {
   Megaphone,
   Trophy,
   Wallet,
+  BookOpen,
+  Zap,
+  Clock,
 } from 'lucide-react';
 import Link from 'next/link';
 
 const quickActions = [
   {
     href: '/dashboard/routine',
-    title: 'Routine',
+    title: 'Class Routine',
     caption: 'Today at a glance',
     icon: Calendar,
-    color: 'var(--brand-primary)',
-    bg: 'var(--brand-primary-light)',
+    color: '#2563eb',
+    bg: '#eff6ff',
   },
   {
     href: '/dashboard/notes',
-    title: 'Notes',
-    caption: '2 new resources',
+    title: 'Study Notes',
+    caption: '4 active resources',
     icon: FileText,
-    color: 'var(--color-info)',
-    bg: 'var(--color-info-light)',
+    color: '#0284c7',
+    bg: '#f0f9ff',
   },
   {
     href: '/dashboard/fees',
-    title: 'Payments',
+    title: 'Fees & Tuition',
     caption: 'August tuition due',
     icon: Wallet,
-    color: 'var(--color-warning)',
-    bg: 'var(--color-warning-light)',
+    color: '#d97706',
+    bg: '#fffbeb',
   },
   {
     href: '/dashboard/results',
-    title: 'Results',
-    caption: 'Latest marks',
+    title: 'Marks & Results',
+    caption: 'Latest assessment',
     icon: Trophy,
-    color: 'var(--color-success)',
-    bg: 'var(--color-success-light)',
+    color: '#059669',
+    bg: '#ecfdf5',
   },
 ];
 
@@ -56,49 +59,69 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Precision Cockpit Hero Banner */}
       <section className="hero-card">
         <div className="hero-content">
           <div>
-            <div className="eyebrow hero-eyebrow">Tuesday, 04 Aug 2026</div>
-            <h1 className="hero-title">Good morning, {name}. Your study day is ready.</h1>
+            <div className="eyebrow hero-eyebrow">Academic Term 2026 · Active Cockpit</div>
+            <h1 className="hero-title">Welcome back, {name}. Your schedule is synchronized.</h1>
             <p className="hero-copy">
-              Keep attendance healthy, review the Math exam plan, and clear your tuition before the
-              bKash/Nagad deadline.
+              Maintain optimal class attendance, review the Higher Math mid-term syllabus scope, and verify your tuition status before the monthly deadline.
             </p>
           </div>
 
           <div className="hero-actions">
             <Link className="btn btn-light" href="/dashboard/routine">
-              View routine <ArrowRight size={16} />
+              <span>View Today's Routine</span>
+              <ArrowRight size={15} />
             </Link>
             <Link className="btn btn-glass" href="/dashboard/notes">
-              Open study notes
+              <span>Access Study Notes</span>
             </Link>
           </div>
 
           <div className="hero-meta-grid">
             <div className="hero-meta">
-              <span>Next class</span>
-              <strong>Physics · 11:30 AM</strong>
+              <span>Upcoming Class</span>
+              <strong>Higher Mathematics · 10:00 AM</strong>
             </div>
             <div className="hero-meta">
-              <span>Attendance streak</span>
-              <strong>12 days present</strong>
+              <span>Attendance Streak</span>
+              <strong>14 Consecutive Days</strong>
             </div>
             <div className="hero-meta">
-              <span>Fee status</span>
-              <strong>Due 10 Aug</strong>
+              <span>Current Status</span>
+              <strong>Term Enrolled · Good Standing</strong>
             </div>
           </div>
         </div>
       </section>
 
+      {/* KPI Stats Grid */}
       <section className="stat-grid">
-        <StatCard title="Attendance" value="85%" trend="up" trendLabel="3% better than last month" icon={<BarChart3 size={20} />} />
-        <StatCard title="Pending Fees" value="৳ 5,500" trend="down" trendLabel="Due on 10 Aug 2026" icon={<Wallet size={20} />} />
-        <StatCard title="Next Exam" value="6 days" trendLabel="Math Mid-Term" icon={<ClipboardList size={20} />} />
+        <StatCard
+          label="Attendance Rate"
+          value="87.6%"
+          change={2.4}
+          sublabel="3% higher than cohort"
+          icon={<BarChart3 size={18} />}
+        />
+        <StatCard
+          label="Pending Tuition"
+          value="৳ 5,500"
+          trend="down"
+          trendLabel="Due on 25 Aug 2026"
+          icon={<Wallet size={18} />}
+        />
+        <StatCard
+          label="Next Assessment"
+          value="7 Days"
+          sublabel="Math Mid-Term · Hall A"
+          icon={<ClipboardList size={18} />}
+        />
       </section>
 
+      {/* Quick Action Navigation Grid */}
       <section className="quick-grid">
         {quickActions.map((item) => {
           const Icon = item.icon;
@@ -106,80 +129,89 @@ export default async function DashboardPage() {
           return (
             <Link className="quick-link" href={item.href} key={item.href}>
               <span className="quick-icon" style={{ background: item.bg, color: item.color }}>
-                <Icon size={22} />
+                <Icon size={20} />
               </span>
-              <span>
+              <div>
                 <span className="quick-title">{item.title}</span>
                 <span className="quick-caption">{item.caption}</span>
-              </span>
+              </div>
             </Link>
           );
         })}
       </section>
 
+      {/* Main Dual Grid */}
       <section className="dashboard-grid">
-        <Card>
-          <div className="section-head">
-            <div>
-              <div className="eyebrow">Priority</div>
-              <h2 className="section-title">Upcoming Exams</h2>
-            </div>
-            <Link className="section-link" href="/dashboard/exams">
-              View all
-            </Link>
-          </div>
-          <div className="list-stack">
-            <div className="timeline-item">
+        {/* Upcoming Exams Card */}
+        <Card className="flex flex-col justify-between">
+          <div>
+            <div className="section-head">
               <div>
-                <p className="timeline-title">Math Mid-Term</p>
-                <p className="timeline-meta">10 Aug 2026 · 10:00 AM · Main Hall</p>
+                <div className="eyebrow">Priority Assessments</div>
+                <h2 className="section-title">Upcoming Exams & Tests</h2>
               </div>
-              <Badge variant="warning">Upcoming</Badge>
+              <Link className="section-link" href="/dashboard/exams">
+                <span>View all</span>
+                <ArrowRight size={13} />
+              </Link>
             </div>
-            <div className="timeline-item">
-              <div>
-                <p className="timeline-title">Physics Class Test</p>
-                <p className="timeline-meta">17 Aug 2026 · 12:00 PM · Room 302</p>
+            <div className="list-stack">
+              <div className="timeline-item">
+                <div>
+                  <p className="timeline-title">HSC Higher Math Mid-Term</p>
+                  <p className="timeline-meta">24 Aug 2026 · 10:00 AM · Hall A</p>
+                </div>
+                <StatusBadge status="PENDING" label="Scheduled" />
               </div>
-              <Badge variant="info">Scheduled</Badge>
+              <div className="timeline-item">
+                <div>
+                  <p className="timeline-title">Physics Mechanics Class Test</p>
+                  <p className="timeline-meta">28 Aug 2026 · 11:00 AM · Room 304</p>
+                </div>
+                <StatusBadge status="DRAFT" label="Upcoming" />
+              </div>
             </div>
           </div>
         </Card>
 
-        <Card>
-          <div className="section-head">
-            <div>
-              <div className="eyebrow">Updates</div>
-              <h2 className="section-title">Latest Notices</h2>
-            </div>
-            <Link className="section-link" href="/dashboard/notices">
-              View all
-            </Link>
-          </div>
-          <div className="list-stack">
-            <div className="timeline-item">
-              <div className="flex items-center gap-3">
-                <span className="quick-icon" style={{ width: 38, height: 38, background: 'var(--color-info-light)', color: 'var(--color-info)' }}>
-                  <Megaphone size={18} />
-                </span>
-                <div>
-                  <p className="timeline-title">Holiday on 15 Aug</p>
-                  <p className="timeline-meta">National Mourning Day notice published</p>
-                </div>
+        {/* Latest Notices Card */}
+        <Card className="flex flex-col justify-between">
+          <div>
+            <div className="section-head">
+              <div>
+                <div className="eyebrow">Bulletin</div>
+                <h2 className="section-title">Latest Announcements</h2>
               </div>
-              <Badge variant="info">Holiday</Badge>
+              <Link className="section-link" href="/dashboard/notices">
+                <span>View all</span>
+                <ArrowRight size={13} />
+              </Link>
             </div>
-            <div className="timeline-item">
-              <div className="flex items-center gap-3">
-                <span className="quick-icon" style={{ width: 38, height: 38, background: 'var(--color-success-light)', color: 'var(--color-success)' }}>
-                  <CheckCircle2 size={18} />
-                </span>
-                <div>
-                  <p className="timeline-title">New notes uploaded</p>
-                  <p className="timeline-meta">Calculus and Mechanics PDFs are available</p>
+            <div className="list-stack">
+              <div className="timeline-item">
+                <div className="flex items-center gap-3">
+                  <span className="quick-icon" style={{ width: 36, height: 36, background: '#eff6ff', color: '#2563eb' }}>
+                    <Megaphone size={16} />
+                  </span>
+                  <div>
+                    <p className="timeline-title">Mid-Term Exam Guidelines</p>
+                    <p className="timeline-meta">Seat plan and admit slip notice issued</p>
+                  </div>
                 </div>
+                <Badge variant="warning">Exam</Badge>
               </div>
-              <Badge variant="success">New</Badge>
+              <div className="timeline-item">
+                <div className="flex items-center gap-3">
+                  <span className="quick-icon" style={{ width: 36, height: 36, background: '#ecfdf5', color: '#059669' }}>
+                    <CheckCircle2 size={16} />
+                  </span>
+                  <div>
+                    <p className="timeline-title">Calculus & Mechanics Notes Uploaded</p>
+                    <p className="timeline-meta">Download PDF materials in study hub</p>
+                  </div>
+                </div>
+                <Badge variant="success">New</Badge>
+              </div>
             </div>
           </div>
         </Card>

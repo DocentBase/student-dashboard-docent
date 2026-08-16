@@ -1,122 +1,202 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { GraduationCap, ArrowRight, BookOpen, Calendar, Trophy, ChevronRight } from 'lucide-react';
+import {
+  GraduationCap,
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  Trophy,
+  CheckCircle2,
+  BarChart3,
+  ShieldCheck,
+  Zap,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@clerk/nextjs';
+import { ProductFrame } from '@/components/ui/ProductFrame';
+import { PrimaryButton, SecondaryButton } from '@/components/ui/Button';
 
 export function LandingGateway() {
   const { isLoaded, userId } = useAuth();
-  
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-app)', display: 'flex', flexDirection: 'column', fontFamily: 'var(--font-inter, Arial, sans-serif)' }}>
-      {/* Header */}
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 5%', borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-surface)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ background: 'var(--brand-primary)', padding: '8px', borderRadius: '8px', color: 'white' }}>
-            <GraduationCap size={24} />
+    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+      {/* Precision Cockpit Topbar */}
+      <header className="sticky top-0 z-30 flex justify-between items-center px-6 lg:px-12 h-16 border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
+            <GraduationCap size={20} />
           </div>
-          <span style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)' }}>DocentBase</span>
+          <div>
+            <span className="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-50 block leading-tight">
+              DocentBase
+            </span>
+            <span className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest block">
+              Student Cockpit
+            </span>
+          </div>
         </div>
-        <div>
+
+        <div className="flex items-center gap-3">
           {isLoaded && !userId && (
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <Link href="/sign-in" style={{ padding: '8px 16px', color: 'var(--text-secondary)', fontWeight: 500, textDecoration: 'none' }}>Log in</Link>
-              <Link href="/sign-up" style={{ padding: '8px 16px', background: 'var(--brand-primary)', color: 'white', borderRadius: '8px', fontWeight: 500, textDecoration: 'none' }}>Sign up</Link>
-            </div>
+            <>
+              <Link href="/sign-in">
+                <SecondaryButton className="h-9 px-4 text-xs">Sign in</SecondaryButton>
+              </Link>
+              <Link href="/sign-up">
+                <PrimaryButton className="h-9 px-4 text-xs">Create Account</PrimaryButton>
+              </Link>
+            </>
           )}
           {isLoaded && userId && (
-            <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'var(--brand-primary)', color: 'white', borderRadius: '8px', fontWeight: 500, textDecoration: 'none' }}>
-              Dashboard <ArrowRight size={16} />
+            <Link href="/dashboard">
+              <PrimaryButton className="h-9 px-4 text-xs">
+                Launch Dashboard
+              </PrimaryButton>
             </Link>
           )}
         </div>
       </header>
 
-      {/* Hero Section */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 5%', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        {/* Background Gradients */}
-        <div style={{ position: 'absolute', top: '-10%', left: '50%', transform: 'translateX(-50%)', width: '80%', height: '500px', background: 'radial-gradient(circle, var(--brand-primary-light) 0%, transparent 70%)', opacity: 0.7, zIndex: 0, pointerEvents: 'none' }} />
-
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      {/* Hero Cockpit Section */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 lg:px-12 py-16 lg:py-24 max-w-7xl mx-auto w-full">
+        {/* Eyebrow Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}
+          transition={{ duration: 0.35 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/40 text-[11px] font-bold text-blue-700 dark:text-blue-400 tracking-wide uppercase mb-6"
         >
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'var(--brand-primary-light)', color: 'var(--brand-primary)', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', marginBottom: '24px' }}>
-            <span>Student Portal 2.0 is live</span>
-          </div>
-          
-          <h1 style={{ fontSize: 'min(64px, 12vw)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
-            Your academic journey, <br />
-            <span style={{ color: 'var(--brand-primary)' }}>beautifully simplified.</span>
-          </h1>
-          
-          <p style={{ fontSize: 'min(20px, 5vw)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px auto' }}>
-            Track your attendance, manage fees, access study materials, and monitor your progress—all in one seamless, premium experience.
-          </p>
+          <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+          <span>Operational Academic Workspace</span>
+        </motion.div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            {isLoaded && !userId && (
-              <>
-                <Link href="/sign-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 32px', background: 'var(--brand-primary)', color: 'white', borderRadius: '12px', fontSize: '18px', fontWeight: 600, textDecoration: 'none', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-md)' }}
-                  onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
-                >
-                  Sign Up as Student <ChevronRight size={20} />
-                </Link>
-                <Link href="/sign-in" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 32px', background: 'var(--bg-surface)', color: 'var(--text-primary)', border: '1px solid var(--border-strong)', borderRadius: '12px', fontSize: '18px', fontWeight: 600, textDecoration: 'none', transition: 'background 0.2s' }}
-                  onMouseOver={(e) => { e.currentTarget.style.background = 'var(--bg-subtle)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.background = 'var(--bg-surface)'; }}
-                >
-                  Sign In
-                </Link>
-              </>
-            )}
-            {isLoaded && userId && (
-              <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 32px', background: 'var(--brand-primary)', color: 'white', borderRadius: '12px', fontSize: '18px', fontWeight: 600, textDecoration: 'none', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: 'var(--shadow-md)' }}
-                onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
-                onMouseOut={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
-              >
-                Go to Student Dashboard <ArrowRight size={20} />
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.05 }}
+          className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.05em] text-zinc-950 dark:text-zinc-50 text-center max-w-3xl leading-[1.1] mb-6"
+        >
+          Precision student operations, <br className="hidden sm:inline" />
+          <span className="text-blue-600 dark:text-blue-500">calm and disciplined.</span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.1 }}
+          className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 text-center max-w-2xl leading-relaxed mb-8"
+        >
+          Track class attendance, clear tuition via bKash/Nagad, access lecture resources, and monitor real-time exam performance in one cohesive cockpit.
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.15 }}
+          className="flex items-center gap-3 mb-16 flex-wrap justify-center"
+        >
+          {isLoaded && !userId ? (
+            <>
+              <Link href="/sign-up">
+                <PrimaryButton className="h-11 px-6 text-sm">
+                  Enroll as Student
+                </PrimaryButton>
               </Link>
-            )}
-          </div>
+              <Link href="/sign-in">
+                <SecondaryButton className="h-11 px-6 text-sm">
+                  Portal Login
+                </SecondaryButton>
+              </Link>
+            </>
+          ) : (
+            <Link href="/dashboard">
+              <PrimaryButton className="h-11 px-6 text-sm">
+                Enter Student Cockpit
+              </PrimaryButton>
+            </Link>
+          )}
         </motion.div>
 
-        {/* Feature Cards Grid */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', width: '100%', maxWidth: '1200px', marginTop: '80px', position: 'relative', zIndex: 1 }}
+        {/* Live Product Frame Mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="w-full max-w-5xl mb-20"
         >
-          <FeatureCard icon={<Calendar size={28} color="var(--brand-primary)" />} title="Smart Routine" desc="Never miss a class with your personalized, always up-to-date schedule." />
-          <FeatureCard icon={<BookOpen size={28} color="var(--color-info)" />} title="Resources Hub" desc="Access class notes, assignments, and study materials instantly." />
-          <FeatureCard icon={<Trophy size={28} color="var(--color-success)" />} title="Performance" desc="Track your exam results and monitor your academic progress." />
+          <ProductFrame url="portal.docentbase.edu.bd/dashboard">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Attendance</span>
+                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">92.4%</p>
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 mt-2">
+                  <CheckCircle2 size={13} />
+                  <span>On track for term honor roll</span>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Current Standing</span>
+                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">GPA 4.95</p>
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-blue-600 mt-2">
+                  <Zap size={13} />
+                  <span>Top 5% in HSC Science Batch</span>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Tuition Status</span>
+                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 tabular-nums">Cleared</p>
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 mt-2">
+                  <ShieldCheck size={13} />
+                  <span>August payment verified</span>
+                </div>
+              </div>
+            </div>
+          </ProductFrame>
         </motion.div>
-      </main>
-      
-      {/* Footer */}
-      <footer style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)', borderTop: '1px solid var(--border-subtle)', background: 'var(--bg-surface)' }}>
-        <p>© {new Date().getFullYear()} DocentBase Student Portal. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-}
 
-function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
-  return (
-    <div style={{ background: 'var(--bg-surface)', padding: '32px', borderRadius: '16px', border: '1px solid var(--border-subtle)', textAlign: 'left', boxShadow: 'var(--shadow-sm)', transition: 'transform 0.3s, box-shadow 0.3s' }}
-      onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
-      onMouseOut={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
-    >
-      <div style={{ background: 'var(--bg-subtle)', width: '56px', height: '56px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-        {icon}
-      </div>
-      <h3 style={{ fontSize: '20px', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '12px' }}>{title}</h3>
-      <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5 }}>{desc}</p>
+        {/* Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4">
+              <Calendar size={20} />
+            </div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2">Automated Schedules</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Real-time synchronization with faculty timetables, batch reschedule notifications, and exam venues.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <BookOpen size={20} />
+            </div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2">Resource Repository</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Curated lecture slides, formula sheets, chapter practice problem sets, and verified syllabus materials.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4">
+              <Trophy size={20} />
+            </div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-2">Analytics & Marks</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Weekly quiz mark tracking, historical percentile benchmarking, and detailed teacher feedback notes.
+            </p>
+          </div>
+        </div>
+      </main>
+
+      {/* Cockpit Footer */}
+      <footer className="px-6 lg:px-12 py-8 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-center text-xs text-zinc-400">
+        <p>© {new Date().getFullYear()} DocentBase Student Portal. Built on the Conversora Calm Operator Design System.</p>
+      </footer>
     </div>
   );
 }

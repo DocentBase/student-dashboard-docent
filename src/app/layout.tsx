@@ -1,13 +1,24 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Instrument_Sans, Geist_Mono } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import '@/styles/globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const instrumentSans = Instrument_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'DocentBase Student Portal',
-  description: 'Student portal for DocentBase',
+  title: 'DocentBase | Student Operational Cockpit',
+  description: 'Precision operational cockpit for DocentBase students',
 };
 
 export default function RootLayout({
@@ -17,8 +28,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" className={`${instrumentSans.variable} ${geistMono.variable}`}>
+        <body className={instrumentSans.className}>{children}</body>
       </html>
     </ClerkProvider>
   );

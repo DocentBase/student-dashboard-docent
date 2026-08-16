@@ -36,6 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ## Activity Log
+- **2026-08-17**: Implemented the complete Conversora / Calm Operator UI/UX Design System (`docs/UI_UX_DESIGN_SYSTEM_PROMPT.md`) across the entire student portal: configured Instrument Sans & Geist Mono typography, motion tokens, refined cobalt/slate/zinc color tokens, upgraded StatCards with sparklines & KPI pills, StatusBadges, ProductFrame showcase, and redesigned all 10+ student cockpit pages (Dashboard, Attendance, Exams, Fees, Notes, Notices, Results, Routine, Profile, Settings). Verified with clean `npm run build`. (Antigravity)
 - **2026-08-04**: Added `context/UI-HARMONY-BLUEPRINT.md` — the ecosystem-wide UI design contract (design tokens, components, motion, responsive rules) so every DocentBase subdomain ships an identical, harmonious UI. (OpenCode)
 - **2026-08-04**: Rebuilt the student portal UI foundation from scratch: refreshed global design tokens, responsive layout utilities, premium app shell, redesigned sidebar/header navigation, and a new dashboard experience. No npm build or npm scripts were run. (Codex)
 - **2026-08-03**: Built "My Enrolled Coaching & Batches" feature (`/coaching`). Created UI components (`CoachingHeader`, `BatchCard`, `CoachingCenterCard`, `BatchDetailModal`, `BatchTransferModal`), added navigation link in Sidebar, and extended TypeScript schemas. Verified cleanly with `npm run build`.
