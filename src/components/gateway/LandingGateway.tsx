@@ -25,9 +25,11 @@ export function LandingGateway() {
       {/* Precision Cockpit Topbar */}
       <header className="sticky top-0 z-30 flex justify-between items-center px-6 lg:px-12 h-16 border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
-            <GraduationCap size={20} />
-          </div>
+          <img
+            src="/images/docent-logo.jpg"
+            alt="DocentBase Logo"
+            className="h-9 w-9 rounded-lg object-cover shadow-sm border border-zinc-200 dark:border-zinc-800"
+          />
           <div>
             <span className="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-50 block leading-tight">
               DocentBase

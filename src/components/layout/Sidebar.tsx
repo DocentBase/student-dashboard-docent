@@ -75,8 +75,8 @@ export function Sidebar({ isOpen, setIsOpen, isMobile, collapsed, toggleCollapse
     <div className="sidebar-panel">
       <div className="sidebar-brand">
         <div className="brand-lockup">
-          <div className="brand-mark">
-            <GraduationCap size={20} />
+          <div className="brand-mark overflow-hidden p-0.5 border border-zinc-200 dark:border-zinc-700 bg-white">
+            <img src="/images/docent-logo.jpg" alt="DocentBase Logo" className="w-full h-full object-cover rounded-[7px]" />
           </div>
           {!collapsed && (
             <div>
