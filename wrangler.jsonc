@@ -1,7 +1,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
-	"name": "next-tmp",
+	"name": "docent-base-students",
 	"account_id": "3ee35ee53cdad85883587acd18f866b5",
 	"compatibility_date": "2026-08-01",
 	"compatibility_flags": [
@@ -17,7 +17,7 @@
 			// Self-reference service binding, the service name must match the worker name
 			// see https://opennext.js.org/cloudflare/caching
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "next-tmp"
+			"service": "docent-base-students"
 		}
 	],
 	"r2_buckets": [
@@ -28,7 +28,7 @@
 			// Create the bucket before deploying
 			// You can change the bucket name if you want
 			// See https://developers.cloudflare.com/workers/wrangler/commands/#r2-bucket-create
-			"bucket_name": "next-tmp-opennext-cache"
+			"bucket_name": "docent-base-students-opennext-cache"
 		}
 	],
 	"images": {
