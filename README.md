@@ -36,6 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 ## Activity Log
+- **2026-08-30**: Initialized and built the complete React Native Expo mobile application in `/mobile` with Expo Router SDK 52, Clerk Expo authentication (`@clerk/clerk-expo` + `expo-secure-store`), Calm Operator / Conversora design tokens, and 1:1 screen replicas for Dashboard, Attendance, Routine, Coaching Batches, Profile, Exams, Results, Fees, Notes, Notices, and Settings. (Antigravity)
 - **2026-08-17**: Generated dynamic and static `robots.txt` and `sitemap.xml` with permissive crawling rules allowing and guiding all web indexers, search crawlers (Googlebot, Bingbot, etc.), and AI bots (GPTBot, ClaudeBot, PerplexityBot) across all portal pages for optimal SEO. (Antigravity)
 - **2026-08-17**: Added official DocentBase brand logo (`/Users/solaman/Downloads/docent_logo/final_logo.jpg`) into the application header, sidebar cockpit navigation, and landing gateway. (Antigravity)
 - **2026-08-17**: Updated Cloudflare deployment worker name from `next-tmp` to `docent-base-students` and created dedicated R2 cache bucket `docent-base-students-opennext-cache` in `wrangler.jsonc`. (Antigravity)
