@@ -9,44 +9,44 @@ export interface TokenCache {
 
 export const createTokenCache = (): TokenCache => {
   return {
-    getToken: async (key: string) => {
+    getToken: async (key: string): Promise<string | null> => {
       try {
         if (Platform.OS === 'web') {
-          if (typeof localStorage !== 'undefined') {
-            return localStorage.getItem(key);
+          if (typeof window !== 'undefined' && window.localStorage) {
+            return window.localStorage.getItem(key);
           }
           return null;
         }
         return await SecureStore.getItemAsync(key);
       } catch (err) {
-        console.error('SecureStore get item error: ', err);
+        console.warn('SecureStore getToken warning:', err);
         return null;
       }
     },
-    saveToken: async (key: string, value: string) => {
+    saveToken: async (key: string, value: string): Promise<void> => {
       try {
         if (Platform.OS === 'web') {
-          if (typeof localStorage !== 'undefined') {
-            localStorage.setItem(key, value);
+          if (typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.setItem(key, value);
           }
           return;
         }
         await SecureStore.setItemAsync(key, value);
       } catch (err) {
-        console.error('SecureStore save item error: ', err);
+        console.warn('SecureStore saveToken warning:', err);
       }
     },
-    clearToken: async (key: string) => {
+    clearToken: async (key: string): Promise<void> => {
       try {
         if (Platform.OS === 'web') {
-          if (typeof localStorage !== 'undefined') {
-            localStorage.removeItem(key);
+          if (typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.removeItem(key);
           }
           return;
         }
         await SecureStore.deleteItemAsync(key);
       } catch (err) {
-        console.error('SecureStore delete item error: ', err);
+        console.warn('SecureStore clearToken warning:', err);
       }
     },
   };

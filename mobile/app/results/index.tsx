@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { StatusBadge } from '../../src/components/StatusBadge';
-import { Trophy, Award, CheckCircle, TrendingUp } from 'lucide-react-native';
+import { Trophy } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function ResultsScreen() {

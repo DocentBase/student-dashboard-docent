@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { StatusBadge } from '../../src/components/StatusBadge';
-import { Megaphone, Calendar, Tag, Bell } from 'lucide-react-native';
+import { Calendar } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function NoticesScreen() {

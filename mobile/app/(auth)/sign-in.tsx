@@ -27,19 +27,39 @@ export default function SignInScreen() {
 
   const onSignInPress = async () => {
     if (!isLoaded) return;
+    if (!emailAddress.trim()) {
+      setErrorMsg('Please enter your student email address.');
+      return;
+    }
+    if (!password) {
+      setErrorMsg('Please enter your password.');
+      return;
+    }
+
     setLoading(true);
     setErrorMsg('');
 
     try {
       const completeSignIn = await signIn.create({
-        identifier: emailAddress,
+        identifier: emailAddress.trim(),
         password,
       });
 
-      await setActive({ session: completeSignIn.createdSessionId });
-      router.replace('/(tabs)');
+      if (completeSignIn.createdSessionId) {
+        await setActive({ session: completeSignIn.createdSessionId });
+        router.replace('/(tabs)');
+      } else if (completeSignIn.status === 'complete') {
+        router.replace('/(tabs)');
+      } else {
+        setErrorMsg('Additional authentication step required. Please try again.');
+      }
     } catch (err: any) {
-      setErrorMsg(err.errors?.[0]?.message || 'Failed to sign in. Please check credentials.');
+      const message =
+        err?.errors?.[0]?.message ||
+        err?.errors?.[0]?.longMessage ||
+        err?.message ||
+        'Failed to sign in. Please check credentials.';
+      setErrorMsg(message);
     } finally {
       setLoading(false);
     }

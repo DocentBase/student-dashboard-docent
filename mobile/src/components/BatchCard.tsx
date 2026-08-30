@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Clock, Users, MapPin, User, ChevronRight } from 'lucide-react-native';
+import { User, ChevronRight } from 'lucide-react-native';
 import { Batch } from '../types';
 import { StatusBadge } from './StatusBadge';
 import { Radius, Spacing } from '../constants/theme';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bell, Search } from 'lucide-react-native';
-import { Colors, Spacing, Radius } from '../constants/theme';
+import { Colors, Spacing } from '../constants/theme';
 import { useRouter } from 'expo-router';
 
 interface CockpitHeaderProps {

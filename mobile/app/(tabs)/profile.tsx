@@ -5,9 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import { useAuth, useClerk } from '@clerk/clerk-expo';
+import { useClerk } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { CockpitHeader } from '../../src/components/CockpitHeader';
 import { Button } from '../../src/components/Button';
@@ -16,8 +15,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  ShieldCheck,
-  Award,
   LogOut,
   Settings as SettingsIcon,
   ChevronRight,

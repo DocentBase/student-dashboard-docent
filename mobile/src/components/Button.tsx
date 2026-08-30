@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { LucideIcon } from 'lucide-react-native';
-import { Colors, Radius, Spacing } from '../constants/theme';
+import { Radius } from '../constants/theme';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'destructive' | 'glass';
 export type ButtonSize = 'sm' | 'md' | 'lg';

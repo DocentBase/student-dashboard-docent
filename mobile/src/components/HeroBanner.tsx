@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Sparkles, ArrowRight, BookOpen, Clock, Award } from 'lucide-react-native';
+import { Sparkles, ArrowRight, Clock } from 'lucide-react-native';
 import { Radius, Spacing } from '../constants/theme';
 import { useRouter } from 'expo-router';
 

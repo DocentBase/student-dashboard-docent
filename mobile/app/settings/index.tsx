@@ -7,16 +7,7 @@ import {
   Switch,
   TouchableOpacity,
 } from 'react-native';
-import {
-  Bell,
-  Moon,
-  Smartphone,
-  Lock,
-  Globe,
-  Info,
-  ChevronRight,
-  ShieldCheck,
-} from 'lucide-react-native';
+import { Globe, ChevronRight } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function SettingsScreen() {

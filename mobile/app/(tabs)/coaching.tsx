@@ -18,11 +18,9 @@ import {
   GraduationCap,
   Building2,
   Key,
-  Plus,
   Search,
   CheckCircle2,
   Clock,
-  XCircle,
   AlertTriangle,
   MapPin,
   Phone,
@@ -30,11 +28,9 @@ import {
   User,
   DollarSign,
   Calendar,
-  BookOpen,
   ArrowRight,
   ChevronLeft,
   X,
-  Sparkles,
   Trash2,
 } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';

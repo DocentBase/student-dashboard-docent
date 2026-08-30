@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { CockpitHeader } from '../../src/components/CockpitHeader';
-import { StatusBadge } from '../../src/components/StatusBadge';
-import { Clock, MapPin, User, Sparkles, BookOpen } from 'lucide-react-native';
+import { Clock, MapPin, User, Sparkles } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function RoutineScreen() {

@@ -9,20 +9,17 @@ import {
 import { CockpitHeader } from '../../src/components/CockpitHeader';
 import { StatusBadge } from '../../src/components/StatusBadge';
 import {
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Flame,
   AlertCircle,
-  BarChart3,
 } from 'lucide-react-native';
 import { Spacing, Radius } from '../../src/constants/theme';
 
 export default function AttendanceScreen() {
-  const [selectedMonth, setSelectedMonth] = useState('August 2026');
+  const months = ['May 2026', 'June 2026', 'July 2026', 'August 2026', 'September 2026'];
+  const [monthIndex, setMonthIndex] = useState(3);
+  const selectedMonth = months[monthIndex];
 
   const subjectBreakdown = [
     { subject: 'Higher Mathematics', present: 28, total: 30, percentage: 93, color: '#2563eb' },
@@ -123,12 +120,22 @@ export default function AttendanceScreen() {
         <View style={styles.monthHeader}>
           <Text style={styles.sectionTitle}>Daily Attendance Log</Text>
           <View style={styles.monthPill}>
-            <TouchableOpacity style={styles.monthBtn}>
-              <ChevronLeft size={16} color="#52525b" />
+            <TouchableOpacity
+              style={styles.monthBtn}
+              onPress={() => setMonthIndex((prev) => Math.max(0, prev - 1))}
+              disabled={monthIndex === 0}
+              activeOpacity={0.7}
+            >
+              <ChevronLeft size={16} color={monthIndex === 0 ? '#cbd5e1' : '#52525b'} />
             </TouchableOpacity>
             <Text style={styles.monthText}>{selectedMonth}</Text>
-            <TouchableOpacity style={styles.monthBtn}>
-              <ChevronRight size={16} color="#52525b" />
+            <TouchableOpacity
+              style={styles.monthBtn}
+              onPress={() => setMonthIndex((prev) => Math.min(months.length - 1, prev + 1))}
+              disabled={monthIndex === months.length - 1}
+              activeOpacity={0.7}
+            >
+              <ChevronRight size={16} color={monthIndex === months.length - 1 ? '#cbd5e1' : '#52525b'} />
             </TouchableOpacity>
           </View>
         </View>

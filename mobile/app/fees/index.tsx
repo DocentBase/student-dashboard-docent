@@ -4,21 +4,14 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { StatusBadge } from '../../src/components/StatusBadge';
 import { Button } from '../../src/components/Button';
 import {
-  Wallet,
-  Calendar,
   CreditCard,
   Download,
-  AlertCircle,
   Smartphone,
   CheckCircle2,
-  ShieldCheck,
-  Clock,
 } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
