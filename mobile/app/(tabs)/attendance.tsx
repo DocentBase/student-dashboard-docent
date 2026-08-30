@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { CockpitHeader } from '../../src/components/CockpitHeader';
-import { StatCard } from '../../src/components/StatCard';
 import { StatusBadge } from '../../src/components/StatusBadge';
 import {
   CheckCircle2,
@@ -17,11 +16,21 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
+  AlertCircle,
+  BarChart3,
 } from 'lucide-react-native';
 import { Spacing, Radius } from '../../src/constants/theme';
 
 export default function AttendanceScreen() {
   const [selectedMonth, setSelectedMonth] = useState('August 2026');
+
+  const subjectBreakdown = [
+    { subject: 'Higher Mathematics', present: 28, total: 30, percentage: 93, color: '#2563eb' },
+    { subject: 'Physics (Theory & Lab)', present: 24, total: 28, percentage: 86, color: '#2563eb' },
+    { subject: 'Chemistry', present: 22, total: 26, percentage: 85, color: '#2563eb' },
+    { subject: 'Biology', present: 19, total: 24, percentage: 79, color: '#f59e0b', isWarning: true },
+    { subject: 'English 1st Paper', present: 25, total: 26, percentage: 96, color: '#10b981' },
+  ];
 
   const attendanceRecords = [
     { id: '1', date: '29 Aug 2026', day: 'Saturday', status: 'present', subject: 'Higher Math', time: '04:30 PM' },
@@ -35,39 +44,78 @@ export default function AttendanceScreen() {
 
   return (
     <View style={styles.container}>
-      <CockpitHeader title="Attendance Record" subtitle="Real-time biometric & teacher logs" />
+      <CockpitHeader title="Attendance Cockpit" subtitle="Biometric & faculty tracking · Term 2026" />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Streak & Overall Progress Banner */}
+        {/* Streak & Overall Ratio Card */}
         <View style={styles.streakBanner}>
           <View style={styles.streakLeft}>
             <View style={styles.flameCircle}>
               <Flame size={22} color="#f97316" />
             </View>
             <View>
-              <Text style={styles.streakTitle}>12 Days Active Streak</Text>
-              <Text style={styles.streakSubtitle}>Keep up the regular attendance!</Text>
+              <Text style={styles.streakTitle}>14 Days Active Streak</Text>
+              <Text style={styles.streakSubtitle}>Cumulative: 118 / 134 Sessions</Text>
             </View>
           </View>
           <View style={styles.streakScoreBox}>
-            <Text style={styles.streakScore}>94.2%</Text>
-            <Text style={styles.streakScoreLabel}>RATIO</Text>
+            <Text style={styles.streakScore}>87.6%</Text>
+            <Text style={styles.streakScoreLabel}>COMPLIANT</Text>
           </View>
         </View>
 
-        {/* 3 Metric Cards */}
+        {/* 3 Metric Mini Cards */}
         <View style={styles.statsRow}>
           <View style={[styles.miniStat, { borderColor: '#d1fae5' }]}>
-            <Text style={[styles.miniStatNum, { color: '#047857' }]}>26</Text>
-            <Text style={styles.miniStatLabel}>Present Days</Text>
+            <Text style={[styles.miniStatNum, { color: '#047857' }]}>118</Text>
+            <Text style={styles.miniStatLabel}>Present</Text>
           </View>
           <View style={[styles.miniStat, { borderColor: '#fee2e2' }]}>
-            <Text style={[styles.miniStatNum, { color: '#b91c1c' }]}>1</Text>
-            <Text style={styles.miniStatLabel}>Absent Days</Text>
+            <Text style={[styles.miniStatNum, { color: '#b91c1c' }]}>16</Text>
+            <Text style={styles.miniStatLabel}>Absent</Text>
           </View>
           <View style={[styles.miniStat, { borderColor: '#fef3c7' }]}>
-            <Text style={[styles.miniStatNum, { color: '#b45309' }]}>1</Text>
-            <Text style={styles.miniStatLabel}>Late Entries</Text>
+            <Text style={[styles.miniStatNum, { color: '#b45309' }]}>3</Text>
+            <Text style={styles.miniStatLabel}>Late</Text>
+          </View>
+        </View>
+
+        {/* Subject Breakdown Card */}
+        <View style={styles.sectionCard}>
+          <View style={styles.sectionHeader}>
+            <View>
+              <Text style={styles.eyebrow}>SUBJECT DISTRIBUTION</Text>
+              <Text style={styles.sectionTitle}>Attendance by Subject</Text>
+            </View>
+            <Text style={styles.thresholdText}>Min req: 75%</Text>
+          </View>
+
+          <View style={styles.subjectList}>
+            {subjectBreakdown.map((item) => (
+              <View key={item.subject} style={styles.subjectItem}>
+                <View style={styles.subjectRowTop}>
+                  <Text style={styles.subjectName}>{item.subject}</Text>
+                  <Text style={styles.subjectCount}>
+                    {item.present}/{item.total} classes ({item.percentage}%)
+                  </Text>
+                </View>
+                <View style={styles.progressBarTrack}>
+                  <View
+                    style={[
+                      styles.progressBarFill,
+                      { width: `${item.percentage}%`, backgroundColor: item.color },
+                    ]}
+                  />
+                </View>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.warningCallout}>
+            <AlertCircle size={14} color="#d97706" />
+            <Text style={styles.warningCalloutText}>
+              Biology attendance is near the minimum threshold (79%). Regular participation recommended.
+            </Text>
           </View>
         </View>
 
@@ -174,7 +222,7 @@ const styles = StyleSheet.create({
   streakScoreLabel: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#94a3b8',
+    color: '#10b981',
     letterSpacing: 0.5,
   },
   statsRow: {
@@ -204,16 +252,87 @@ const styles = StyleSheet.create({
     color: '#71717a',
     fontWeight: '500',
   },
+  sectionCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: Radius.lg,
+    padding: Spacing.lg,
+    borderWidth: 1,
+    borderColor: '#e4e4e7',
+    gap: Spacing.md,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  eyebrow: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#94a3b8',
+    letterSpacing: 0.8,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#0f172a',
+    marginTop: 2,
+  },
+  thresholdText: {
+    fontSize: 11,
+    color: '#94a3b8',
+    fontWeight: '500',
+  },
+  subjectList: {
+    gap: 12,
+  },
+  subjectItem: {
+    gap: 4,
+  },
+  subjectRowTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  subjectName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#334155',
+  },
+  subjectCount: {
+    fontSize: 11,
+    color: '#64748b',
+    fontWeight: '500',
+  },
+  progressBarTrack: {
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#f1f5f9',
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  warningCallout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#fffbeb',
+    padding: 10,
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: '#fef3c7',
+  },
+  warningCalloutText: {
+    fontSize: 11,
+    color: '#92400e',
+    flex: 1,
+    lineHeight: 16,
+  },
   monthHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 4,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#0f172a',
   },
   monthPill: {
     flexDirection: 'row',

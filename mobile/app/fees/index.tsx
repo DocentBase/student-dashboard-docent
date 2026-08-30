@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { StatusBadge } from '../../src/components/StatusBadge';
 import { Button } from '../../src/components/Button';
@@ -16,109 +17,179 @@ import {
   AlertCircle,
   Smartphone,
   CheckCircle2,
+  ShieldCheck,
+  Clock,
 } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function FeesScreen() {
+  const [paying, setPaying] = useState(false);
+  const [paidSuccess, setPaidSuccess] = useState(false);
+  const [receiptDownloaded, setReceiptDownloaded] = useState(false);
+
   const feeInvoices = [
     {
-      id: 'inv-01',
-      month: 'September 2026',
-      amount: 3500,
-      dueDate: '10 Sep 2026',
-      status: 'due',
-      batchesCount: 3,
+      id: 'TXN-2026-8941',
+      month: 'July 2026 Monthly Tuition Fee',
+      paidDate: '05 Jul 2026',
+      method: 'bKash · TrxID: 9MK2L49',
+      amount: 5500,
+      status: 'paid',
     },
     {
-      id: 'inv-02',
-      month: 'August 2026',
-      amount: 3500,
-      paidDate: '05 Aug 2026',
-      paidAmount: 3500,
-      paymentMethod: 'bKash Merchant (TxID: BK892104)',
+      id: 'TXN-2026-7812',
+      month: 'June 2026 Monthly Tuition Fee',
+      paidDate: '03 Jun 2026',
+      method: 'Nagad · TrxID: 8JL1P20',
+      amount: 5500,
       status: 'paid',
-      batchesCount: 3,
     },
     {
-      id: 'inv-03',
-      month: 'July 2026',
-      amount: 3500,
-      paidDate: '07 Jul 2026',
-      paidAmount: 3500,
-      paymentMethod: 'Nagad Gateway (TxID: NG77312)',
+      id: 'TXN-2026-6420',
+      month: 'May 2026 Monthly Tuition + Lab Charge',
+      paidDate: '08 May 2026',
+      method: 'bKash · TrxID: 7TY9W11',
+      amount: 6200,
       status: 'paid',
-      batchesCount: 3,
     },
   ];
 
+  const handlePay = () => {
+    setPaying(true);
+    setTimeout(() => {
+      setPaying(false);
+      setPaidSuccess(true);
+    }, 1200);
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
-      {/* Pending Due Callout Card */}
-      <View style={styles.dueCard}>
-        <View style={styles.dueTop}>
-          <View style={styles.dueIconBox}>
-            <Wallet size={24} color="#f59e0b" />
-          </View>
-          <View style={styles.dueInfo}>
-            <Text style={styles.dueLabel}>TOTAL PENDING DUES</Text>
-            <Text style={styles.dueAmount}>৳ 3,500</Text>
-            <Text style={styles.dueDate}>Due Date: 10 September 2026</Text>
-          </View>
+      {/* KPI Stats */}
+      <View style={styles.kpiRow}>
+        <View style={styles.kpiCard}>
+          <Text style={styles.kpiLabel}>PENDING DUE</Text>
+          <Text style={[styles.kpiValue, { color: paidSuccess ? '#10b981' : '#b45309' }]}>
+            {paidSuccess ? '৳ 0' : '৳ 5,500'}
+          </Text>
+          <Text style={styles.kpiSub}>{paidSuccess ? 'All Cleared' : 'Due: 25 Aug'}</Text>
         </View>
-
-        <Button
-          title="Pay via bKash / Nagad"
-          size="md"
-          onPress={() => {}}
-          style={{ backgroundColor: '#e11d48' }}
-        />
+        <View style={styles.kpiCard}>
+          <Text style={styles.kpiLabel}>PAID THIS YEAR</Text>
+          <Text style={styles.kpiValue}>{paidSuccess ? '৳ 47,700' : '৳ 42,200'}</Text>
+          <Text style={styles.kpiSub}>8 Invoices</Text>
+        </View>
+        <View style={styles.kpiCard}>
+          <Text style={styles.kpiLabel}>NEXT INVOICE</Text>
+          <Text style={styles.kpiValue}>01 Sep</Text>
+          <Text style={styles.kpiSub}>Regular Cycle</Text>
+        </View>
       </View>
 
-      {/* Payment Instructions Accordion */}
+      {/* Current Outstanding Invoice */}
+      {!paidSuccess ? (
+        <View style={styles.dueCard}>
+          <View style={styles.dueTop}>
+            <View style={{ flex: 1 }}>
+              <View style={styles.badgeRow}>
+                <Text style={styles.billingEyebrow}>CURRENT BILLING CYCLE</Text>
+                <StatusBadge status="due" />
+              </View>
+              <Text style={styles.dueTitle}>August 2026 Tuition & Library Fee</Text>
+              <Text style={styles.dueSub}>
+                Invoice #INV-2026-AUG-102 • Grace period until 25 Aug 2026
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.itemizedBox}>
+            <View style={styles.itemRow}>
+              <Text style={styles.itemName}>Monthly Tuition (3 Batches)</Text>
+              <Text style={styles.itemPrice}>৳ 4,500</Text>
+            </View>
+            <View style={styles.itemRow}>
+              <Text style={styles.itemName}>Physics Lab Charge</Text>
+              <Text style={styles.itemPrice}>৳ 600</Text>
+            </View>
+            <View style={styles.itemRow}>
+              <Text style={styles.itemName}>Study Materials & Handouts</Text>
+              <Text style={styles.itemPrice}>৳ 400</Text>
+            </View>
+            <View style={styles.itemDivider} />
+            <View style={styles.itemRowTotal}>
+              <Text style={styles.totalLabel}>Total Payable Amount</Text>
+              <Text style={styles.totalPrice}>৳ 5,500</Text>
+            </View>
+          </View>
+
+          <Button
+            title={paying ? 'Processing Payment Gateway...' : 'Pay via bKash / Card (৳ 5,500)'}
+            icon={CreditCard}
+            onPress={handlePay}
+            loading={paying}
+            size="lg"
+          />
+        </View>
+      ) : (
+        <View style={styles.paidSuccessCard}>
+          <View style={styles.paidSuccessTop}>
+            <CheckCircle2 size={24} color="#10b981" />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.paidSuccessTitle}>Payment Completed Successfully! 🎉</Text>
+              <Text style={styles.paidSuccessSub}>
+                August 2026 tuition cleared. TrxID: BKASH-99812A.
+              </Text>
+            </View>
+          </View>
+
+          <Button
+            title={receiptDownloaded ? 'Receipt Downloaded ✓' : 'Download Verified Receipt'}
+            icon={Download}
+            variant="secondary"
+            size="sm"
+            onPress={() => setReceiptDownloaded(true)}
+          />
+        </View>
+      )}
+
+      {/* Mobile Banking Instructions */}
       <View style={styles.instructionCard}>
         <View style={styles.instructionHeader}>
           <Smartphone size={18} color="#2563eb" />
-          <Text style={styles.instructionTitle}>Mobile Banking Payment Instructions</Text>
+          <Text style={styles.instructionTitle}>Mobile Banking Direct Payment</Text>
         </View>
         <Text style={styles.instructionText}>
           1. Go to your bKash / Nagad App and select "Make Payment".{'\n'}
           2. Merchant Account: <Text style={styles.bold}>01700-000000</Text>{'\n'}
-          3. Reference: Use your Student ID <Text style={styles.bold}>STU-8821</Text>{'\n'}
-          4. Upon confirmation, receipt is instantly updated.
+          3. Reference: Use your Student USI <Text style={styles.bold}>DC-2026-0894</Text>{'\n'}
+          4. Receipt is automatically verified within 5 minutes.
         </Text>
       </View>
 
-      {/* Invoices & Receipts List */}
+      {/* Verified Payment History Ledger */}
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Invoice & Payment History</Text>
+        <Text style={styles.sectionTitle}>Verified Payment History</Text>
       </View>
 
       <View style={styles.list}>
         {feeInvoices.map((inv) => (
           <View key={inv.id} style={styles.invoiceCard}>
             <View style={styles.invHeader}>
-              <View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.invReceiptId}>{inv.id}</Text>
                 <Text style={styles.invMonth}>{inv.month}</Text>
-                <Text style={styles.invBatchText}>{inv.batchesCount} Enrolled Batches</Text>
               </View>
               <StatusBadge status={inv.status} />
             </View>
 
             <View style={styles.invRow}>
               <Text style={styles.invAmount}>৳ {inv.amount.toLocaleString()}</Text>
-              {inv.status === 'paid' ? (
-                <Text style={styles.invStatusMeta}>Paid on {inv.paidDate}</Text>
-              ) : (
-                <Text style={styles.invStatusMetaDue}>Due by {inv.dueDate}</Text>
-              )}
+              <Text style={styles.invStatusMeta}>Paid on {inv.paidDate}</Text>
             </View>
 
-            {inv.paymentMethod && (
-              <View style={styles.txRow}>
-                <CheckCircle2 size={12} color="#10b981" />
-                <Text style={styles.txText}>{inv.paymentMethod}</Text>
-              </View>
-            )}
+            <View style={styles.txRow}>
+              <CheckCircle2 size={12} color="#10b981" />
+              <Text style={styles.txText}>{inv.method}</Text>
+            </View>
           </View>
         ))}
       </View>
@@ -136,54 +207,138 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxl * 2,
     gap: Spacing.lg,
   },
+  kpiRow: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+  },
+  kpiCard: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    borderRadius: Radius.md,
+    padding: Spacing.md,
+    borderWidth: 1,
+    borderColor: '#e4e4e7',
+    alignItems: 'center',
+    gap: 2,
+  },
+  kpiLabel: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: '#94a3b8',
+    letterSpacing: 0.5,
+  },
+  kpiValue: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#0f172a',
+  },
+  kpiSub: {
+    fontSize: 10,
+    color: '#64748b',
+  },
   dueCard: {
     backgroundColor: '#ffffff',
-    borderRadius: Radius.lg,
-    padding: Spacing.lg,
+    borderRadius: Radius.xl,
+    padding: Spacing.xl,
     borderWidth: 1,
     borderColor: '#e4e4e7',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 1,
-    gap: Spacing.lg,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 2,
+    gap: Spacing.md,
   },
   dueTop: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  badgeRow: {
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    justifyContent: 'space-between',
+    marginBottom: 4,
   },
-  dueIconBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: '#fffbeb',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#fef3c7',
-  },
-  dueInfo: {
-    flex: 1,
-  },
-  dueLabel: {
+  billingEyebrow: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#94a3b8',
+    color: '#2563eb',
     letterSpacing: 0.8,
   },
-  dueAmount: {
-    fontSize: 24,
+  dueTitle: {
+    fontSize: 17,
     fontWeight: '800',
     color: '#0f172a',
-    letterSpacing: -0.5,
+    marginTop: 2,
+  },
+  dueSub: {
+    fontSize: 11,
+    color: '#71717a',
+    marginTop: 2,
+  },
+  itemizedBox: {
+    backgroundColor: '#f8fafc',
+    borderRadius: Radius.md,
+    padding: Spacing.md,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    gap: 8,
+  },
+  itemRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  itemName: {
+    fontSize: 12,
+    color: '#475569',
+  },
+  itemPrice: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#0f172a',
+  },
+  itemDivider: {
+    height: 1,
+    backgroundColor: '#e2e8f0',
     marginVertical: 2,
   },
-  dueDate: {
+  itemRowTotal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  totalLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#0f172a',
+  },
+  totalPrice: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#2563eb',
+  },
+  paidSuccessCard: {
+    backgroundColor: '#ecfdf5',
+    borderRadius: Radius.lg,
+    padding: Spacing.lg,
+    borderWidth: 1,
+    borderColor: '#a7f3d0',
+    gap: Spacing.md,
+  },
+  paidSuccessTop: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  paidSuccessTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#065f46',
+  },
+  paidSuccessSub: {
     fontSize: 12,
-    color: '#f59e0b',
-    fontWeight: '600',
+    color: '#047857',
+    marginTop: 2,
   },
   instructionCard: {
     backgroundColor: '#eff6ff',
@@ -240,15 +395,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
+  invReceiptId: {
+    fontSize: 10,
+    fontFamily: 'monospace',
+    color: '#64748b',
+    fontWeight: '600',
+  },
   invMonth: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '700',
     color: '#0f172a',
-  },
-  invBatchText: {
-    fontSize: 11,
-    color: '#64748b',
-    marginTop: 1,
+    marginTop: 2,
   },
   invRow: {
     flexDirection: 'row',
@@ -256,18 +413,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   invAmount: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '800',
     color: '#0f172a',
   },
   invStatusMeta: {
     fontSize: 11,
     color: '#10b981',
-    fontWeight: '600',
-  },
-  invStatusMetaDue: {
-    fontSize: 11,
-    color: '#f59e0b',
     fontWeight: '600',
   },
   txRow: {

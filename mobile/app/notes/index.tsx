@@ -5,61 +5,95 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
-import { FileText, Download, User, Calendar, BookOpen } from 'lucide-react-native';
+import { FileText, Download, User, Calendar, Search, CheckCircle2 } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function NotesScreen() {
+  const [search, setSearch] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('All');
+  const [downloadedId, setDownloadedId] = useState<string | null>(null);
 
-  const subjects = ['All', 'Higher Math', 'Physics', 'Chemistry', 'Biology'];
+  const subjects = ['All', 'Higher Mathematics', 'Physics', 'Chemistry', 'Biology'];
 
   const notes = [
     {
-      id: '1',
-      title: 'Calculus Integration Formula Sheet & Solved Examples',
-      subject: 'Higher Math',
-      uploadedBy: 'Prof. Rafiqul Islam',
-      date: '28 Aug 2026',
-      fileType: 'PDF',
-      fileSize: '2.4 MB',
+      id: 'res-01',
+      title: 'Differential Calculus: Limits & Continuity',
+      subject: 'Higher Mathematics',
+      teacher: 'Prof. Tanvir Ahmed',
+      fileSize: '3.4 MB',
+      format: 'PDF',
+      date: '12 Aug 2026',
+      downloads: 142,
+      description: 'Comprehensive formula sheets, graphical interpretations, and 25 practice problems with solutions.',
     },
     {
-      id: '2',
-      title: 'Rotational Motion Complete Lecture Handout',
+      id: 'res-02',
+      title: 'Newtonian Mechanics & Planetary Motion',
       subject: 'Physics',
-      uploadedBy: 'Dr. Anwar Hossain',
-      date: '25 Aug 2026',
-      fileType: 'PDF',
-      fileSize: '4.1 MB',
-    },
-    {
-      id: '3',
-      title: 'Organic Chemistry Reaction Mechanisms Diagram Book',
-      subject: 'Chemistry',
-      uploadedBy: 'Tanvir Ahmed',
-      date: '22 Aug 2026',
-      fileType: 'PDF',
+      teacher: 'Dr. Mahmudul Hasan',
       fileSize: '5.8 MB',
+      format: 'PDF',
+      date: '10 Aug 2026',
+      downloads: 189,
+      description: 'Lecture slides, derivation of planetary orbital laws, and sample BUET admission questions.',
     },
     {
-      id: '4',
-      title: 'Coordinate Geometry Practice Problem Set with Solutions',
-      subject: 'Higher Math',
-      uploadedBy: 'Prof. Rafiqul Islam',
-      date: '18 Aug 2026',
-      fileType: 'PDF',
-      fileSize: '1.9 MB',
+      id: 'res-03',
+      title: 'Organic Chemistry: Reaction Mechanisms',
+      subject: 'Chemistry',
+      teacher: 'Engr. Rafiqul Islam',
+      fileSize: '4.2 MB',
+      format: 'PDF',
+      date: '08 Aug 2026',
+      downloads: 110,
+      description: 'Summary charts for SN1/SN2 mechanisms, electrophilic aromatic substitution, and synthesis pathways.',
+    },
+    {
+      id: 'res-04',
+      title: 'Cell Biology & Genetics Cheat Sheet',
+      subject: 'Biology',
+      teacher: 'Dr. Nusrat Jahan',
+      fileSize: '2.1 MB',
+      format: 'PDF',
+      date: '04 Aug 2026',
+      downloads: 95,
+      description: 'High-yield diagrams of mitosis/meiosis, Mendelian genetics crosses, and short question notes.',
     },
   ];
 
-  const filteredNotes = notes.filter((n) => {
-    if (selectedSubject === 'All') return true;
-    return n.subject === selectedSubject;
+  const filteredNotes = notes.filter((note) => {
+    const matchesSearch =
+      note.title.toLowerCase().includes(search.toLowerCase()) ||
+      note.description.toLowerCase().includes(search.toLowerCase()) ||
+      note.teacher.toLowerCase().includes(search.toLowerCase());
+    const matchesSubject = selectedSubject === 'All' || note.subject === selectedSubject;
+    return matchesSearch && matchesSubject;
   });
+
+  const handleDownload = (id: string) => {
+    setDownloadedId(id);
+    setTimeout(() => {
+      setDownloadedId(null);
+    }, 2500);
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scrollContent}>
+      {/* Live Search Bar */}
+      <View style={styles.searchBarWrap}>
+        <Search size={16} color="#94a3b8" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search resources, topics, formulas..."
+          placeholderTextColor="#94a3b8"
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
+
       {/* Subject Filter Pills */}
       <ScrollView
         horizontal
@@ -87,6 +121,11 @@ export default function NotesScreen() {
         })}
       </ScrollView>
 
+      {/* Resource Count Meta */}
+      <Text style={styles.countText}>
+        Showing {filteredNotes.length} verified study materials
+      </Text>
+
       {/* Notes List */}
       <View style={styles.list}>
         {filteredNotes.map((note) => (
@@ -99,13 +138,18 @@ export default function NotesScreen() {
                 <Text style={styles.noteSubject}>{note.subject}</Text>
                 <Text style={styles.noteTitle}>{note.title}</Text>
               </View>
+              <View style={styles.formatPill}>
+                <Text style={styles.formatPillText}>{note.format}</Text>
+              </View>
             </View>
+
+            <Text style={styles.descriptionText}>{note.description}</Text>
 
             <View style={styles.noteMetaRow}>
               <View style={styles.metaCol}>
                 <View style={styles.inlineMeta}>
                   <User size={11} color="#64748b" />
-                  <Text style={styles.metaAuthor}>{note.uploadedBy}</Text>
+                  <Text style={styles.metaAuthor}>{note.teacher}</Text>
                 </View>
                 <View style={styles.inlineMeta}>
                   <Calendar size={11} color="#64748b" />
@@ -115,9 +159,25 @@ export default function NotesScreen() {
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.downloadBtn} activeOpacity={0.8}>
-                <Download size={14} color="#2563eb" />
-                <Text style={styles.downloadText}>Download</Text>
+              <TouchableOpacity
+                style={[
+                  styles.downloadBtn,
+                  downloadedId === note.id && styles.downloadBtnDone,
+                ]}
+                onPress={() => handleDownload(note.id)}
+                activeOpacity={0.8}
+              >
+                {downloadedId === note.id ? (
+                  <>
+                    <CheckCircle2 size={13} color="#047857" />
+                    <Text style={styles.downloadTextDone}>Saved ✓</Text>
+                  </>
+                ) : (
+                  <>
+                    <Download size={13} color="#2563eb" />
+                    <Text style={styles.downloadText}>Download</Text>
+                  </>
+                )}
               </TouchableOpacity>
             </View>
           </View>
@@ -135,7 +195,23 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: Spacing.lg,
     paddingBottom: Spacing.xxl * 2,
-    gap: Spacing.lg,
+    gap: Spacing.md,
+  },
+  searchBarWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e4e4e7',
+    borderRadius: Radius.md,
+    paddingHorizontal: 14,
+    height: 44,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 13,
+    color: '#0f172a',
   },
   subjectRow: {
     gap: 8,
@@ -160,6 +236,11 @@ const styles = StyleSheet.create({
   subPillTextActive: {
     color: '#ffffff',
   },
+  countText: {
+    fontSize: 11,
+    color: '#94a3b8',
+    fontWeight: '500',
+  },
   list: {
     gap: Spacing.md,
   },
@@ -174,7 +255,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.03,
     shadowRadius: 3,
     elevation: 1,
-    gap: 12,
+    gap: 10,
   },
   noteTop: {
     flexDirection: 'row',
@@ -182,8 +263,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   pdfBadge: {
-    width: 40,
-    height: 40,
+    width: 38,
+    height: 38,
     borderRadius: 10,
     backgroundColor: '#ffe4e6',
     alignItems: 'center',
@@ -205,6 +286,23 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     marginTop: 2,
     lineHeight: 18,
+  },
+  formatPill: {
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: Radius.xs,
+  },
+  formatPillText: {
+    fontSize: 10,
+    fontFamily: 'monospace',
+    fontWeight: '700',
+    color: '#475569',
+  },
+  descriptionText: {
+    fontSize: 12,
+    color: '#64748b',
+    lineHeight: 17,
   },
   noteMetaRow: {
     flexDirection: 'row',
@@ -236,13 +334,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     backgroundColor: '#eff6ff',
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: Radius.xs,
+  },
+  downloadBtnDone: {
+    backgroundColor: '#ecfdf5',
   },
   downloadText: {
     fontSize: 11,
     fontWeight: '700',
     color: '#2563eb',
+  },
+  downloadTextDone: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#047857',
   },
 });

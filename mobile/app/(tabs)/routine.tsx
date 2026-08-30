@@ -8,60 +8,153 @@ import {
 } from 'react-native';
 import { CockpitHeader } from '../../src/components/CockpitHeader';
 import { StatusBadge } from '../../src/components/StatusBadge';
-import { Clock, MapPin, User, Sparkles, Coffee } from 'lucide-react-native';
+import { Clock, MapPin, User, Sparkles, BookOpen } from 'lucide-react-native';
 import { Radius, Spacing } from '../../src/constants/theme';
 
 export default function RoutineScreen() {
-  const [selectedDay, setSelectedDay] = useState('Today');
+  const [activeDay, setActiveDay] = useState('Saturday');
 
-  const days = ['Today', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
 
-  const scheduleSlots = [
-    {
-      id: '1',
-      startTime: '04:30 PM',
-      endTime: '05:45 PM',
-      subject: 'Higher Mathematics',
-      teacher: 'Prof. Rafiqul Islam',
-      room: 'Room 302 (North Wing)',
-      batch: 'Batch Alpha (HSC 2026)',
-      status: 'upcoming',
-      color: '#2563eb',
-    },
-    {
-      id: '2',
-      isBreak: true,
-      startTime: '05:45 PM',
-      endTime: '06:00 PM',
-      title: 'Prayer & Short Refreshment Break',
-    },
-    {
-      id: '3',
-      startTime: '06:00 PM',
-      endTime: '07:15 PM',
-      subject: 'Physics Advanced Mechanics',
-      teacher: 'Dr. Anwar Hossain',
-      room: 'Lab Room 104',
-      batch: 'Batch Beta (Engineering Focus)',
-      status: 'upcoming',
-      color: '#059669',
-    },
-    {
-      id: '4',
-      startTime: '07:30 PM',
-      endTime: '08:45 PM',
-      subject: 'Chemistry Organic Reactions',
-      teacher: 'Tanvir Ahmed',
-      room: 'Room 201',
-      batch: 'Batch Gamma',
-      status: 'upcoming',
-      color: '#d97706',
-    },
-  ];
+  const weeklySchedule: Record<
+    string,
+    Array<{
+      id: string;
+      time: string;
+      subject: string;
+      teacher: string;
+      room: string;
+      type: string;
+      color: string;
+    }>
+  > = {
+    Saturday: [
+      {
+        id: 'sat-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Higher Mathematics',
+        teacher: 'Prof. Tanvir Ahmed',
+        room: 'Room 402',
+        type: 'Lecture',
+        color: '#2563eb',
+      },
+      {
+        id: 'sat-2',
+        time: '11:00 AM - 12:30 PM',
+        subject: 'Physics (Theory)',
+        teacher: 'Dr. Mahmudul Hasan',
+        room: 'Room 304',
+        type: 'Lecture',
+        color: '#059669',
+      },
+      {
+        id: 'sat-3',
+        time: '02:00 PM - 04:00 PM',
+        subject: 'Physics Lab Session',
+        teacher: 'Dr. Mahmudul Hasan',
+        room: 'Lab A',
+        type: 'Practical',
+        color: '#d97706',
+      },
+    ],
+    Sunday: [
+      {
+        id: 'sun-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Chemistry (Organic)',
+        teacher: 'Engr. Rafiqul Islam',
+        room: 'Room 301',
+        type: 'Lecture',
+        color: '#2563eb',
+      },
+      {
+        id: 'sun-2',
+        time: '11:00 AM - 12:30 PM',
+        subject: 'Biology',
+        teacher: 'Dr. Nusrat Jahan',
+        room: 'Room 205',
+        type: 'Lecture',
+        color: '#059669',
+      },
+    ],
+    Monday: [
+      {
+        id: 'mon-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Higher Mathematics',
+        teacher: 'Prof. Tanvir Ahmed',
+        room: 'Room 402',
+        type: 'Problem Solving',
+        color: '#2563eb',
+      },
+      {
+        id: 'mon-2',
+        time: '11:00 AM - 12:30 PM',
+        subject: 'English 1st Paper',
+        teacher: 'Ms. Farhana Haque',
+        room: 'Room 102',
+        type: 'Interactive',
+        color: '#8b5cf6',
+      },
+    ],
+    Tuesday: [
+      {
+        id: 'tue-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Physics (Mechanics)',
+        teacher: 'Dr. Mahmudul Hasan',
+        room: 'Room 304',
+        type: 'Lecture',
+        color: '#059669',
+      },
+      {
+        id: 'tue-2',
+        time: '11:00 AM - 12:30 PM',
+        subject: 'Chemistry Lab',
+        teacher: 'Engr. Rafiqul Islam',
+        room: 'Chem Lab 2',
+        type: 'Practical',
+        color: '#d97706',
+      },
+    ],
+    Wednesday: [
+      {
+        id: 'wed-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Higher Mathematics (Calculus)',
+        teacher: 'Prof. Tanvir Ahmed',
+        room: 'Room 402',
+        type: 'Lecture',
+        color: '#2563eb',
+      },
+      {
+        id: 'wed-2',
+        time: '11:00 AM - 12:30 PM',
+        subject: 'Biology Discussion',
+        teacher: 'Dr. Nusrat Jahan',
+        room: 'Room 205',
+        type: 'Lecture',
+        color: '#059669',
+      },
+    ],
+    Thursday: [
+      {
+        id: 'thu-1',
+        time: '09:00 AM - 10:30 AM',
+        subject: 'Weekly Model Test',
+        teacher: 'Faculty Proctor Team',
+        room: 'Auditorium Hall',
+        type: 'Assessment',
+        color: '#e11d48',
+      },
+    ],
+  };
+
+  const currentSlots = weeklySchedule[activeDay] || [];
 
   return (
     <View style={styles.container}>
-      <CockpitHeader title="Class Routine" subtitle="Weekly timetable & lecture schedule" />
+      <CockpitHeader title="Weekly Class Routine" subtitle="Faculty schedules, halls & laboratory slots" />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Day Selector Pill Bar */}
@@ -71,12 +164,12 @@ export default function RoutineScreen() {
           contentContainerStyle={styles.daySelectorRow}
         >
           {days.map((day) => {
-            const isSelected = selectedDay === day;
+            const isSelected = activeDay === day;
             return (
               <TouchableOpacity
                 key={day}
                 style={[styles.dayPill, isSelected && styles.dayPillActive]}
-                onPress={() => setSelectedDay(day)}
+                onPress={() => setActiveDay(day)}
                 activeOpacity={0.8}
               >
                 <Text
@@ -96,65 +189,48 @@ export default function RoutineScreen() {
         <View style={styles.nowCard}>
           <View style={styles.nowBadge}>
             <Sparkles size={12} color="#2563eb" />
-            <Text style={styles.nowBadgeText}>TIMETABLE STATUS</Text>
+            <Text style={styles.nowBadgeText}>{activeDay.toUpperCase()} TIMETABLE</Text>
           </View>
-          <Text style={styles.nowTitle}>3 Classes Scheduled for Today</Text>
+          <Text style={styles.nowTitle}>
+            {currentSlots.length} Classes Scheduled for {activeDay}
+          </Text>
           <Text style={styles.nowSubtitle}>
-            Your first class starts at 04:30 PM in Room 302.
+            First session starts at {currentSlots[0]?.time.split(' - ')[0]} in {currentSlots[0]?.room}.
           </Text>
         </View>
 
         {/* Schedule Timeline Slots */}
         <View style={styles.timelineList}>
-          {scheduleSlots.map((slot) => {
-            if (slot.isBreak) {
-              return (
-                <View key={slot.id} style={styles.breakCard}>
-                  <Coffee size={16} color="#b45309" />
-                  <View style={styles.breakTextCol}>
-                    <Text style={styles.breakTitle}>{slot.title}</Text>
-                    <Text style={styles.breakTime}>
-                      {slot.startTime} - {slot.endTime} (15 mins)
-                    </Text>
+          {currentSlots.map((slot) => (
+            <View key={slot.id} style={styles.slotCard}>
+              <View style={[styles.colorStrip, { backgroundColor: slot.color }]} />
+
+              <View style={styles.slotMain}>
+                <View style={styles.slotHeader}>
+                  <View style={styles.timeTag}>
+                    <Clock size={12} color="#2563eb" />
+                    <Text style={styles.timeTagText}>{slot.time}</Text>
+                  </View>
+                  <View style={styles.typeBadge}>
+                    <Text style={styles.typeBadgeText}>{slot.type}</Text>
                   </View>
                 </View>
-              );
-            }
 
-            return (
-              <View key={slot.id} style={styles.slotCard}>
-                <View
-                  style={[styles.colorStrip, { backgroundColor: slot.color }]}
-                />
+                <Text style={styles.subjectName}>{slot.subject}</Text>
 
-                <View style={styles.slotMain}>
-                  <View style={styles.slotHeader}>
-                    <View style={styles.timeTag}>
-                      <Clock size={12} color="#2563eb" />
-                      <Text style={styles.timeTagText}>
-                        {slot.startTime} - {slot.endTime}
-                      </Text>
-                    </View>
-                    <StatusBadge status={slot.status || 'upcoming'} />
+                <View style={styles.slotFooter}>
+                  <View style={styles.footerItem}>
+                    <User size={12} color="#64748b" />
+                    <Text style={styles.footerText}>{slot.teacher}</Text>
                   </View>
-
-                  <Text style={styles.subjectName}>{slot.subject}</Text>
-                  <Text style={styles.batchCode}>{slot.batch}</Text>
-
-                  <View style={styles.slotFooter}>
-                    <View style={styles.footerItem}>
-                      <User size={12} color="#64748b" />
-                      <Text style={styles.footerText}>{slot.teacher}</Text>
-                    </View>
-                    <View style={styles.footerItem}>
-                      <MapPin size={12} color="#64748b" />
-                      <Text style={styles.footerText}>{slot.room}</Text>
-                    </View>
+                  <View style={styles.footerItem}>
+                    <MapPin size={12} color="#64748b" />
+                    <Text style={styles.footerText}>{slot.room}</Text>
                   </View>
                 </View>
               </View>
-            );
-          })}
+            </View>
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -270,15 +346,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#334155',
   },
+  typeBadge: {
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: Radius.xs,
+  },
+  typeBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#475569',
+  },
   subjectName: {
     fontSize: 15,
     fontWeight: '700',
     color: '#0f172a',
-  },
-  batchCode: {
-    fontSize: 11,
-    color: '#64748b',
-    fontWeight: '500',
   },
   slotFooter: {
     flexDirection: 'row',
@@ -298,28 +380,5 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 11,
     color: '#475569',
-  },
-  breakCard: {
-    backgroundColor: '#fffbeb',
-    borderRadius: Radius.md,
-    padding: Spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderWidth: 1,
-    borderColor: '#fef3c7',
-  },
-  breakTextCol: {
-    flex: 1,
-  },
-  breakTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#92400e',
-  },
-  breakTime: {
-    fontSize: 11,
-    color: '#b45309',
-    marginTop: 1,
   },
 });
