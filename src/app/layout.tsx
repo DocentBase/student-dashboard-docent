@@ -32,13 +32,15 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
 };
 
+import { clerkAuthAppearance } from '@/lib/auth-theme';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={clerkAuthAppearance}>
       <html lang="en" className={`${instrumentSans.variable} ${geistMono.variable}`}>
         <body className={instrumentSans.className}>{children}</body>
       </html>

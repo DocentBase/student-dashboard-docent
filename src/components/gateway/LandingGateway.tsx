@@ -11,6 +11,8 @@ import {
   BarChart3,
   ShieldCheck,
   Zap,
+  UserPlus,
+  LogIn,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@clerk/nextjs';
@@ -23,7 +25,7 @@ export function LandingGateway() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       {/* Precision Cockpit Topbar */}
-      <header className="sticky top-0 z-30 flex justify-between items-center px-6 lg:px-12 h-16 border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md">
+      <header className="sticky top-0 z-30 flex justify-between items-center px-4 sm:px-6 lg:px-12 h-16 border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <img
             src="/images/docent-logo.jpg"
@@ -40,21 +42,28 @@ export function LandingGateway() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {isLoaded && !userId && (
             <>
               <Link href="/sign-in">
-                <SecondaryButton className="h-9 px-4 text-xs">Sign in</SecondaryButton>
+                <SecondaryButton className="h-9 px-3 sm:px-4 text-xs flex items-center gap-1.5">
+                  <LogIn size={14} className="hidden sm:inline" />
+                  <span>Sign In</span>
+                </SecondaryButton>
               </Link>
               <Link href="/sign-up">
-                <PrimaryButton className="h-9 px-4 text-xs">Create Account</PrimaryButton>
+                <PrimaryButton className="h-9 px-3 sm:px-4 text-xs flex items-center gap-1.5">
+                  <UserPlus size={14} className="hidden sm:inline" />
+                  <span>Sign Up</span>
+                </PrimaryButton>
               </Link>
             </>
           )}
           {isLoaded && userId && (
             <Link href="/dashboard">
-              <PrimaryButton className="h-9 px-4 text-xs">
-                Launch Dashboard
+              <PrimaryButton className="h-9 px-4 text-xs flex items-center gap-1.5">
+                <span>Launch Dashboard</span>
+                <ArrowRight size={14} />
               </PrimaryButton>
             </Link>
           )}
@@ -62,7 +71,7 @@ export function LandingGateway() {
       </header>
 
       {/* Hero Cockpit Section */}
-      <main className="flex-1 flex flex-col items-center justify-center px-6 lg:px-12 py-16 lg:py-24 max-w-7xl mx-auto w-full">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-24 max-w-7xl mx-auto w-full">
         {/* Eyebrow Pill */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -79,7 +88,7 @@ export function LandingGateway() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.05 }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.05em] text-zinc-950 dark:text-zinc-50 text-center max-w-3xl leading-[1.1] mb-6"
+          className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.05em] text-zinc-950 dark:text-zinc-50 text-center max-w-3xl leading-[1.1] mb-6"
         >
           Precision student operations, <br className="hidden sm:inline" />
           <span className="text-blue-600 dark:text-blue-500">calm and disciplined.</span>
@@ -90,7 +99,7 @@ export function LandingGateway() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.1 }}
-          className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 text-center max-w-2xl leading-relaxed mb-8"
+          className="text-sm sm:text-lg text-zinc-600 dark:text-zinc-400 text-center max-w-2xl leading-relaxed mb-8"
         >
           Track class attendance, clear tuition via bKash/Nagad, access lecture resources, and monitor real-time exam performance in one cohesive cockpit.
         </motion.p>
@@ -100,25 +109,28 @@ export function LandingGateway() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.15 }}
-          className="flex items-center gap-3 mb-16 flex-wrap justify-center"
+          className="flex items-center gap-3 mb-16 flex-wrap justify-center w-full max-w-md sm:max-w-none"
         >
           {isLoaded && !userId ? (
             <>
-              <Link href="/sign-up">
-                <PrimaryButton className="h-11 px-6 text-sm">
-                  Enroll as Student
+              <Link href="/sign-up" className="w-full sm:w-auto">
+                <PrimaryButton className="h-11 px-6 text-sm w-full sm:w-auto flex items-center justify-center gap-2">
+                  <UserPlus size={16} />
+                  <span>Sign Up as Student</span>
                 </PrimaryButton>
               </Link>
-              <Link href="/sign-in">
-                <SecondaryButton className="h-11 px-6 text-sm">
-                  Portal Login
+              <Link href="/sign-in" className="w-full sm:w-auto">
+                <SecondaryButton className="h-11 px-6 text-sm w-full sm:w-auto flex items-center justify-center gap-2">
+                  <LogIn size={16} />
+                  <span>Sign In</span>
                 </SecondaryButton>
               </Link>
             </>
           ) : (
-            <Link href="/dashboard">
-              <PrimaryButton className="h-11 px-6 text-sm">
-                Enter Student Cockpit
+            <Link href="/dashboard" className="w-full sm:w-auto">
+              <PrimaryButton className="h-11 px-6 text-sm w-full sm:w-auto flex items-center justify-center gap-2">
+                <span>Enter Student Cockpit</span>
+                <ArrowRight size={16} />
               </PrimaryButton>
             </Link>
           )}
@@ -162,7 +174,7 @@ export function LandingGateway() {
         </motion.div>
 
         {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mb-20">
           <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs">
             <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4">
               <Calendar size={20} />
@@ -191,6 +203,46 @@ export function LandingGateway() {
             <p className="text-xs text-zinc-500 leading-relaxed">
               Weekly quiz mark tracking, historical percentile benchmarking, and detailed teacher feedback notes.
             </p>
+          </div>
+        </div>
+
+        {/* Bottom Registration Banner */}
+        <div className="w-full max-w-5xl rounded-3xl bg-gradient-to-r from-blue-900 via-zinc-900 to-slate-900 p-8 sm:p-12 border border-blue-800/40 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="relative z-10 max-w-xl text-center md:text-left">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-2 block">
+              Student Registration Open
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+              Ready to elevate your academic workflow?
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+              Create your student account in under 2 minutes. Connect with your coaching batch, track fees, and never miss a class schedule.
+            </p>
+          </div>
+          <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+            {isLoaded && !userId ? (
+              <>
+                <Link href="/sign-up" className="w-full sm:w-auto">
+                  <PrimaryButton className="h-11 px-6 text-sm bg-blue-600 hover:bg-blue-500 text-white w-full sm:w-auto flex items-center justify-center gap-2">
+                    <UserPlus size={16} />
+                    <span>Sign Up Now</span>
+                  </PrimaryButton>
+                </Link>
+                <Link href="/sign-in" className="w-full sm:w-auto">
+                  <SecondaryButton className="h-11 px-6 text-sm bg-white/10 border-white/20 hover:bg-white/20 text-white w-full sm:w-auto flex items-center justify-center gap-2">
+                    <LogIn size={16} />
+                    <span>Sign In</span>
+                  </SecondaryButton>
+                </Link>
+              </>
+            ) : (
+              <Link href="/dashboard" className="w-full sm:w-auto">
+                <PrimaryButton className="h-11 px-6 text-sm bg-blue-600 hover:bg-blue-500 text-white w-full sm:w-auto flex items-center justify-center gap-2">
+                  <span>Go to Cockpit</span>
+                  <ArrowRight size={16} />
+                </PrimaryButton>
+              </Link>
+            )}
           </div>
         </div>
       </main>
